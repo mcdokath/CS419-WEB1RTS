@@ -12,12 +12,14 @@
 	</head>
 	<body>
 		<div class="container">
-		  <h1>Tower Challenge</h1>
+		  <h1 id="game-title">Tower Challenge</h1>
+		  <div id="game-container">
 			  <div id="player-sidebar">
 				<h2>Player Dashboard</h2>
 				<hr>
-				<p><strong style="font-size:large;">Tower Height: </strong></p>
-				<p><strong style="font-size:large;">Diamond: </strong></p>
+				<p><strong style="font-size:large;">Player Height: <!-- Code for Tower Height --></strong></p>
+				<p><strong style="font-size:large;">Enemy Height: <!-- Code for Tower Height --></strong></p>
+				<p><strong style="font-size:large;">Diamond: <!-- Code for Available Money --></strong></p>
 				<p><strong style="font-size:large;">Buy:</strong></p>
 				<div class="buy-container">
 					<div class="buy-images">
@@ -59,6 +61,7 @@
 			  <div id="player-main">
 				<canvas id="scene" width="800" height="600"></canvas>
 			  </div>
+			</div>
 		</div>
 	</body>
 </html>

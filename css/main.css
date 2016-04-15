@@ -52,7 +52,7 @@ footer {
 }
 
 .container {
-	min-width:1300px;
+	min-width:1350px;
 	max-width:1600px;
 	background-color:rgba(255,255,255,0.5);
 	margin-left:auto;
@@ -61,18 +61,33 @@ footer {
 }
 
 /* game styles */
-#scene {
-	background-image:url(../images/01.jpg);
-	height:768px;
-	width:1024px;
+#game-title {
+	padding:10px;
+	border:2px solid #4B0082;
+	border-radius:50px;
+	width:35%;
 	margin-left:auto;
 	margin-right:auto;
+	background: #33CC00; /* For browsers that do not support gradients */
+	background: -webkit-radial-gradient(rgba(255,255,255,0.9),#33CC00); /* For Safari 5.1 to 6.0 */
+	background: -o-radial-gradient(rgba(255,255,255,0.9),#33CC00); /* For Opera 11.1 to 12.0 */
+	background: -moz-radial-gradient(rgba(255,255,255,0.9),#33CC00); /* For Firefox 3.6 to 15 */
+	background: radial-gradient(rgba(255,255,255,0.9),#33CC00); /* Standard syntax */
+}
+
+#game-container {
+	display:block;
+	min-width:1350px;
+	max-width:1400px;
+	margin-left:auto;
+	margin-right:auto;
+	overflow:auto;
 }
 
 #player-sidebar {
 	display:block;
-	width:20%;
-	min-width:240px;
+	min-width:280px;
+	max-width:300px;
 	height:768px;
 	float:left;
 	clear:left;
@@ -107,10 +122,18 @@ footer {
 
 #player-main {
 	display:block;
-	width:78%;
 	min-width:1024px;
+	max-width:1200px;
 	float:right;
 	clear:right;
 	margin-top:10px;
 	margin-bottom:10px;
+}
+
+#scene {
+	background-image:url(../images/canvas.png);
+	height:768px;
+	width:1024px;
+	margin-left:auto;
+	margin-right:auto;
 }
