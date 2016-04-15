@@ -1,27 +1,42 @@
 /* general styles */
-*{
-	margin:0;
-	padding:0;
-}
-
 body {
 	background-color:#bababa;
-	background-image: -webkit-radial-gradient(600px 300px, circle, #ffffff, #bababa 60%);
-	background-image: -mox-radial-gradient(600px 300px, circle, #ffffff, #bababa 60%);
-	background-image: -o-radial-gradient(600px 300px, circle, #ffffff, #bababa 60%);
-	background-image: radial-gradient(600px 300px, circle, #ffffff, #bababa 60%);
-	color:#fff;
+	background-image:url(../images/greybg.png);
+	color:#000;
 	font:14px/1.3 Arial, sans-serif;
 	min-height:1000px;
 }
 
-.container {
-	width:100%;
+h1, h2, h3, h4, h5, h6 {
+	text-align:center;
+	color:#000;
 }
 
-.container > * {
-	display:block;
-	margin:50px auto;
+ul, li{
+	list-style-type:none;
+	padding:0px;
+	margin:0px;
+}
+
+button {
+	border:none;
+	border-radius:5px;
+	padding:2px;
+	margin:2px;
+	color:#fff;
+	background: #6034d9;
+	text-decoration:none;
+}
+
+button:hover {
+	background: #6034d9;
+	background-image: -webkit-linear-gradient(top, #6034d9, #737cff);
+	background-image: -moz-linear-gradient(top, #6034d9, #737cff);
+	background-image: -ms-linear-gradient(top, #6034d9, #737cff);
+	background-image: -o-linear-gradient(top, #6034d9, #737cff);
+	background-image: linear-gradient(to bottom, #6034d9, #737cff);
+	color:#fff;
+	text-decoration: none;	
 }
 
 footer {
@@ -36,18 +51,66 @@ footer {
 	z-index:100;
 }
 
-footer h2 {
-	font-size:22px;
-	font-weight:normal;
-	left:50%;
-	margin-left:-400px;
-	padding:22px 0;
-	position:absolute;
-	width:540px;
+.container {
+	min-width:1300px;
+	max-width:1600px;
+	background-color:rgba(255,255,255,0.5);
+	margin-left:auto;
+	margin-right:auto;
+	overflow:auto;
 }
 
-/* tutorial styles */
+/* game styles */
 #scene {
 	background-image:url(../images/01.jpg);
-	position:relative;
+	height:768px;
+	width:1024px;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+#player-sidebar {
+	display:block;
+	width:20%;
+	min-width:240px;
+	height:768px;
+	float:left;
+	clear:left;
+	margin-top:10px;
+	margin-bottom:10px;
+	margin-left:5px;
+	background-color:#fff;
+	color:#4B0082;
+}
+
+.buy-container {
+	display:block;
+	width:100%;
+	min-width:240px;
+	height:130px;
+	overflow:auto;
+}
+
+.buy-images {
+	display:inline-block;
+	width:83px;
+	float:left;
+}
+
+.buy-options {
+	display:inline-block;
+	min-width:135px;
+	max-width:190px;
+	width:70%;
+	float:right;
+}
+
+#player-main {
+	display:block;
+	width:78%;
+	min-width:1024px;
+	float:right;
+	clear:right;
+	margin-top:10px;
+	margin-bottom:10px;
 }
