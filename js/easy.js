@@ -84,6 +84,8 @@ function newGame(winningHeight, minerCost, builderCost) {
 	health of each unit?
 	diamond(?) count for each player
 	score (height of towers)
+	whether unit was in action?
+	game ID(?)
 */
 
 /* Save Current Game */
@@ -95,4 +97,5 @@ function newGame(winningHeight, minerCost, builderCost) {
 	diamond(?) count for each player
 	score (height of towers)
 	randomly generate game ID?
+	save whether unit was in action?
 */
