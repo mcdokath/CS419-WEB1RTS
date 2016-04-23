@@ -38,27 +38,46 @@
 
 			}
 
+			function logMe() 
+			{
+			        console.log(this.x + " " + this.y);
+			}
+
+			var arrayOfRobots = new Array();
+			var robotIndex = 0;
+
+			function displayXY()
+			{
+				for (var i = 0; i < arrayOfRobots.length; i++)
+				{
+					console.log("robot at index " + i + " x=" + arrayOfRobots[i].x + " y=" + arrayOfRobots[i].y);
+				}
+			}
+
 
 			function handleClick(event)
 			{
 				//console.log("handleClick");
-				var bmp = new createjs.Bitmap("assets/robotbuilder.png");
-				bmp.x = Math.floor(Math.random()*500);
-				bmp.y = Math.floor(Math.random()*500);
-				console.log("x=", bmp.x);
-				console.log("y=", bmp.y);
+				arrayOfRobots[robotIndex] = new createjs.Bitmap("assets/robotbuilder.png");
+				arrayOfRobots[robotIndex].x = Math.floor(Math.random()*500);
+				arrayOfRobots[robotIndex].y = Math.floor(Math.random()*500);
+				console.log("x=", arrayOfRobots[robotIndex].x);
+				console.log("y=", arrayOfRobots[robotIndex].y);
 
 
-				stage.addChild(bmp);
+				stage.addChild(arrayOfRobots[robotIndex]);
 				//stage.update();
 
 				//createjs.Sound.play("sound");
 				//console.log("clicked");
 
-
-
+				console.log("# of robots: " + arrayOfRobots.length);
+				robotIndex++;
+				displayXY();
 
 			}
+
+
 
 			function tick(event)
 			{
