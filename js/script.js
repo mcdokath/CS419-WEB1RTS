@@ -1,8 +1,22 @@
-/* before PLAY is pressed */
+$(document).ready(function(){
+	/* NEW GAME is pressed */
+	$("#new-game").click(function() {
+		$("#new-game").hide();
+		$("#load-game").hide();
+		$("#easy-game").show();
+		$("#easy-game").css("display","block");
+		$("#hard-game").show();
+		$("#hard-game").css("display","block");
+	});
+});
+
+/* LOAD GAME is pressed */
 
 
-/* PLAY is pressed */
 
+
+
+/* --- old code --- */
 /* place mines */
 
 

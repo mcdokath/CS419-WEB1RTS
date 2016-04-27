@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Tower Challenge</title>
+		<link href="css/main.css" rel="stylesheet" type="text/css" />
+		<!--[if lt IE 9]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js</script>
+		<![endif]-->
+		<script type="text/javascript" src="js/jquery-1.5.2.min.js"></script>
+		<script type="text/javascript" src="js/script.js"></script>
+	</head>
+	<body>
+		<div class="container">
+		  <h1 id="game-title">Tower Challenge</h1>
+		  <div id="game-container">
+			  <div id="player-sidebar">
+				<h2>Player Dashboard</h2>
+				<hr>
+				<p><strong style="font-size:large;">Player Height: <!-- Code for Tower Height --></strong></p>
+				<p><strong style="font-size:large;">Enemy Height: <!-- Code for Tower Height --></strong></p>
+				<p><strong style="font-size:large;">Diamond: <!-- Code for Available Money --></strong></p>
+				<p><strong style="font-size:large;">Buy:</strong></p>
+				<div class="buy-container">
+					<div class="buy-images">
+						<img src="images/robotminer.png">
+					</div>
+					<div class="buy-options">
+						<ul>
+						<li><button>Miner: Basic</button></li>
+						<li><button>Miner: Advanced</button></li>
+						<li><button>Miner: Expert</button></li>
+						</ul>
+					</div>
+				</div>
+				<div class="buy-container">
+					<div class="buy-images">
+						<img src="images/robotbuilder.png">
+					</div>
+					<div class="buy-options">
+						<ul>
+						<li><button>Builder: Basic</button></li>
+						<li><button>Builder: Advanced</button></li>
+						<li><button>Builder: Expert</button></li>
+						</ul>
+					</div>
+				</div>
+				<div class="buy-container">
+					<div class="buy-images">
+						<img src="images/robotdestroyer.png">
+					</div>
+					<div class="buy-options">
+						<ul>
+						<li><button>Destroyer: Basic</button></li>
+						<li><button>Destroyer: Advanced</button></li>
+						<li><button>Destroyer: Expert</button></li>
+						</ul>
+					</div>
+				</div>
+			  </div>
+			  <div id="player-main">
+				<canvas id="scene" width="800" height="600"></canvas>
+			  </div>
+			</div>
+		</div>
+	</body>
+</html>
