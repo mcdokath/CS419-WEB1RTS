@@ -1,0 +1,146 @@
+/* general styles */
+body {
+	background-color:#bababa;
+	background-image:url(../images/greybg.png);
+	color:#000;
+	font:14px/1.3 Arial, sans-serif;
+	min-height:1000px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-align:center;
+	color:#000;
+}
+
+ul, li{
+	list-style-type:none;
+	padding:0px;
+	margin:0px;
+}
+
+a {
+	text-decoration:none;
+}
+
+button {
+	border:none;
+	border-radius:5px;
+	padding:2px;
+	margin:2px;
+	color:#fff;
+	background: #6034d9;
+	text-decoration:none;
+}
+
+button:hover {
+	background: #6034d9;
+	background-image: -webkit-linear-gradient(top, #6034d9, #737cff);
+	background-image: -moz-linear-gradient(top, #6034d9, #737cff);
+	background-image: -ms-linear-gradient(top, #6034d9, #737cff);
+	background-image: -o-linear-gradient(top, #6034d9, #737cff);
+	background-image: linear-gradient(to bottom, #6034d9, #737cff);
+	color:#fff;
+	text-decoration: none;	
+}
+
+footer {
+	background-color:#212121;
+	bottom:0;
+	box-shadow: 0 -1px 2px #111111;
+	display:block;
+	height:70px;
+	left:0;
+	position:fixed;
+	width:100%;
+	z-index:100;
+}
+
+.container {
+	min-width:1350px;
+	max-width:1600px;
+	background-color:rgba(255,255,255,0.5);
+	margin-left:auto;
+	margin-right:auto;
+	overflow:auto;
+}
+
+/* game styles */
+#game-title {
+	padding:10px;
+	border:2px solid #4B0082;
+	border-radius:50px;
+	width:35%;
+	margin-left:auto;
+	margin-right:auto;
+	background: #33CC00; /* For browsers that do not support gradients */
+	background: -webkit-radial-gradient(rgba(255,255,255,0.9),#33CC00); /* For Safari 5.1 to 6.0 */
+	background: -o-radial-gradient(rgba(255,255,255,0.9),#33CC00); /* For Opera 11.1 to 12.0 */
+	background: -moz-radial-gradient(rgba(255,255,255,0.9),#33CC00); /* For Firefox 3.6 to 15 */
+	background: radial-gradient(rgba(255,255,255,0.9),#33CC00); /* Standard syntax */
+}
+
+#game-container {
+	display:block;
+	min-width:1350px;
+	max-width:1400px;
+	margin-left:auto;
+	margin-right:auto;
+	overflow:auto;
+}
+
+#player-sidebar {
+	display:block;
+	min-width:280px;
+	max-width:300px;
+	height:768px;
+	float:left;
+	clear:left;
+	margin-top:10px;
+	margin-bottom:10px;
+	margin-left:5px;
+	background-color:#fff;
+	color:#4B0082;
+	text-align:center;
+}
+
+.buy-container {
+	display:block;
+	min-width:84px;
+	max-width:125px;
+	margin:10px auto 10px auto;
+	padding-top:10px;
+	padding-bottom:10px;
+	border:2px solid #000;
+}
+
+.buy-container>button {
+	display:block;
+	font-size:large;
+	padding:10px;
+	margin:auto auto 10px auto;
+}
+
+.buy-container>image {
+	display:block;
+	width:83px;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+#player-main {
+	display:block;
+	min-width:1024px;
+	max-width:1200px;
+	float:right;
+	clear:right;
+	margin-top:10px;
+	margin-bottom:10px;
+}
+
+#scene {
+	background-image:url(../images/canvas.png);
+	height:768px;
+	width:1024px;
+	margin-left:auto;
+	margin-right:auto;
+}
