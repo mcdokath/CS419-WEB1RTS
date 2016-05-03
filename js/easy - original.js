@@ -21,15 +21,7 @@
 http://jlongster.com/Making-Sprite-based-Games-with-Canvas
 /* struct GameVars */
 
-// robot variables
-var minerSrcX = 0,
-	minerSrcY = 855,
-	minerWidth = 58,
-	minerHeight = 118,
-	builderSrcX = 155,
-	builderSrcY = 855,
-	builderWidth = 69,
-	builderHeight = 118;
+
 
 //canvas variables
 var canvasBg = document.getElementById("canvasBg"),
@@ -37,19 +29,44 @@ var canvasBg = document.getElementById("canvasBg"),
     canvasEntities = document.getElementById("canvasEntities"),
     ctxEntities = canvasEntities.getContext("2d"),
     canvasWidth = canvasBg.width,
-    canvasHeight = canvasBg.height,	
-	minerCost = 100,
-	builderCost = 200,
-	numberOfBricks = 1,
+    canvasHeight = canvasBg.height,
+	//how many robots to buy
+	number,
+	//how much money the user has
+	gold =20,
+	//money = getMinerCost('gold'),var
+	
+	//money = getMinerCost('gold'),
+	money=20,
+	//miner
+	miner,
+	builder,
+	new_miner,
+	new_builder,
+	//this will be used for the new Brick() object
+	newbrick,
+	//player1 = new PlayerVars(),
+	//builders_player1 = new PlayerDestructor(),
+	//destructor_player1 = new Builder(),
+	//miner_player1 = new PlayerMiner(),
+	Miners_player_array = [],
 	Constructor_player_array = [],
+	//destructor_player_array = [],
+	//miner_player =[],
+	numMiners_player = builder,
+	numberOfMiners =1,
+	numberOfBuilders =1,
+	playerMine1 = new Mine(),
 	Bricks_player_array = [],
+	numberOfBricks = 1,
 	
 	//so we will not go with the height, but instead with the number
 	//of bricks in the building
 	//this is not critical for the EASY level, but for the HARD level, where destructors
 	//will be able to destruct the buildings - bricks- this is necessary.
 	//we need to get to 50 bricks
-
+	nuber_of_bricks_building_player = 1,
+	brick_array_player = [],
 	//the game is not playing
 	isPlaying = false,
 	//variables to animates the frame, checks different browsers
@@ -61,7 +78,7 @@ var canvasBg = document.getElementById("canvasBg"),
                         function(callback) {
                             window.setTimeout(callback, 1000 / 60);
                         },	
-	requestAnimFrameforDiamonds =  window.requestAnimationFrame ||
+	    requestAnimFrameforDiamonds =  window.requestAnimationFrame ||
                         window.webkitRequestAnimationFrame ||
                         window.mozRequestAnimationFrame ||
                         window.oRequestAnimationFrame ||
@@ -69,36 +86,14 @@ var canvasBg = document.getElementById("canvasBg"),
                         function(callback1) {
                             window.setTimeout(callback1, 18000);
                         },					
-	imgSprite = new Image();
+	imgSprite	= new Image();
 	//location of the image 
 	imgSprite.src = "images/canvas.png";
 	//we are listening for the image to load
 	//and then we call the finction initializer
 	imgSprite.addEventListener("load", init, false);
 	
-// player variables
-var playerVars = {
-	money: 20,
-	numMiners: 1,
-	numBuilders: 1,
-	mine: new Mine(),
-	miners: [],
-	builders: []
-};
-
-// enemy AI variables
-var enemyVars = {
-	money: 20,
-	numMiners: 1,
-	numBuilders: 1,
-	mine: new Mine(),
-	miners: [],
-	builders: []
-};
 	
-/********************/
-/* GAME FUNCTIONS */
-/********************/
 function init(){
 	//we are listening to the key listening
 	//document.addEventListener("keydown", checkKeyDown, false);
@@ -106,10 +101,12 @@ function init(){
 	//lets the game know where the game is
     //defineMines();
     initMiners();//
-	//initBuilders();
+	initConstructor();
 	initBricks();
-	//defineplayerVars.mine();
-	begin();	
+	//definePlayerMine();
+	begin();
+	//setTimeout(collectDiamons, 600);
+	
 }	
 	
 //we need to draw the backgraound
@@ -124,21 +121,24 @@ function begin() {
 	requestAnimFrameforDiamonds(loopdiamonds);
 }
 
+
 function update() {
+	
     clearCtx(ctxEntities);
     updateAllMiners();
 	updateAllConstructor();
 	updateBricks();
-    playerVars.mine.update();
-	enemyVars.mine.update();
+    playerMine1.update();
+	//collectDiamons();
+	//setTimeout(collectDiamons, 600);
+	//runCollectDimanons();
 }
 
 function draw() {
    drawAllMiners();
    drawAllConstructor();
    drawAllBricks();
-   playerVars.mine.draw();
-   enemyVars.mine.draw();
+   playerMine1.draw();
 }
 
 //this functions updates the game, when we draw new canvas, we need to clear the old one
@@ -148,19 +148,22 @@ function loop() {
 		//update the draw loop
         update();
 		//draw everything that we need to 
+		//setTimeout(collectDiamons, 600);
         draw();
         requestAnimFrame(loop);
     }
 }
 
+
 function loopdiamonds() {
 	//check and make sure that the game is playing
     if (isPlaying) {
-		runCollectDiamonds(playerVars);
+		collectDiamons();
 		addBrick();
 		requestAnimFrameforDiamonds(loopdiamonds);
     }
 }
+
 
 //clear function to get rid of the infomation on the screen
 function clearCtx(ctx) {
@@ -168,102 +171,81 @@ function clearCtx(ctx) {
 	//specify the dimension of the canvas that we want to clean
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 }
-		
+	
+	
+	
 function randomRange (min, max) {
     return Math.floor(Math.random() * (max + 1 - min)) + min;
 }
 
-/********************/
-/* CONSTRUCTORS */
-/********************/
-function Constructor(srcX,srcY,width,height) {
-	this.srcX = srcX;
-    this.srcY = srcY;
-    this.width = width;
-    this.height = height;
-    this.drawX = randomRange(0, canvasWidth - this.width);
-    this.drawY = randomRange(0, canvasHeight - this.height);
-	var that = this;
-	this.moveInterval = setInterval(function() {that.loop_constructor();}, 1000);
+
+	//var Xa, Ya;
+//lets define a building block of the building
+//Xa and Ya are the coordinates on the canvas where the brick will be drawn
+/*
+function Brick(Xa, Ya) {
+	this.srcX = 396;
+    this.srcY = 627;
+    this.width = 40;
+    this.height = 23;
+	this.drawX = Xa;
+	this.drawY = Ya;
 }
-            var xpos1=18, 
-            ypos1=1203, 
-            index1=0, 
-            numFrames1 = 18, 
-            frameSize1= 35;
-			
-//function to loop through the sprite sheet for miner
-Constructor.prototype.loop_constructor = function() {
-            //clear the canvas!
-            //ctxEntities.clearRect(0,0, canvasHeight,canvasWidth);
 
-            ctxEntities.drawImage(imgSprite,xpos1,ypos1,this.width, this.height,this.drawX, this.drawY,this.width, this.height);
-            
-            //each time around we add the frame size to our xpos, moving along the source image
-            xpos1 += frameSize1;
-            //increase the index so we know which frame of our animation we are currently on
-            index1 += 2;
-            
-            //if our index is higher than our total number of frames, we're at the end and better start over
-            if (index1 >= numFrames1) {
-                xpos1 =18;
-                ypos1 =1203;
-                index1=0;    
-            //if we've gotten to the limit of our source image's width, we need to move down one row of frames                
-            } else if (xpos1 + frameSize1 > imgSprite.width){
-                xpos1 =18;
-                ypos1 += frameSize1;
-            }
-            
-            
-        }
+//function to add bricks
 
+function initBricks() {
+    for (var i = 0; i < nuber_of_bricks_building_player; i++) {
+       brick_array_player[brick_array_player.length] = new Brick(9, 546);
+    }
+}
 //create prototype of the builder
 //adding a method to the object
-Constructor.prototype.update = function () {
-    //this.centerX = this.drawX + (this.width / 2);
-   // this.centerY = this.drawY + (this.height / 2);
-     	
-    ctxEntities.drawImage(imgSprite,xpos,ypos,this.width, this.height,this.drawX, this.drawY,this.width, this.height);
-   //this.checkDirection();
-};
+Brick.prototype.update = function () {    	
+    ctxEntities.drawImage(imgSprite, this.srcX, this.srcX,this.width, this.height,this.drawX , this.drawY,this.width, this.height);
 
-//c.drawImage(image, xpos, ypos, frameSize, frameSize, 0, 0, frameSize, frameSize);
-Constructor.prototype.draw = function () {
-	//ctxEntities.drawImage(imgSprite, this.srcX, this.srcY, this.width, this.height, this.drawX, this.drawY, this.width, this.height);
-	
-   ctxEntities.drawImage(imgSprite,xpos,ypos,this.width, this.height,this.drawX, this.drawY,this.width, this.height);
 };
+//c.drawImage(image, xpos, ypos, frameSize, frameSize, 0, 0, frameSize, frameSize);
+
+Brick.prototype.draw = function () {
+	//ctxEntities.drawImage(imgSprite, this.srcX, this.srcY, this.width, this.height, this.drawX, this.drawY, this.width, this.height);
+
+		   ctxEntities.drawImage(imgSprite,this.srcX, this.srcX,this.width, this.height,this.drawX , this.drawY,this.width, this.height);
+	
+   };
+
 
 //change 2 to numMiners_player after u figure out how to keep track of the variable numMiners_player
-function initConstructor() {
-    for (var i = 0; i < numberOfBuilders; i++) {
-       Constructor_player_array[Constructor_player_array.length] = new Constructor(builderSrcX,builderSrcY,builderWidth,builderHeight);
+/*
+at the begining of the game we do not have any bricks, so we do not need to initialize brick array
+function initBricks() {
+    for (var i = 0; i < nuber_of_bricks_building_player; i++) {
+        brick_array_player[brick_array_player.length] = new Brick();
+    }
+}F
+
+function updateAllBricks() {
+    for (var i = 0; i < brick_array_player.length; i++) {
+        brick_array_player[i].update();
     }
 }
 
-function updateAllConstructor() {
-    for (var i = 0; i < Constructor_player_array.length; i++) {
-        Constructor_player_array[i].update();
+function drawAllBricks() {
+	//numberOfBlicksLeft = brick_array_player.length;
+    for (var i = 0; i < brick_array_player.length; i++) {
+		brick_array_player[i].draw();
     }
+		
 }
 
-function drawAllConstructor() {
-    for (var i = 0; i < Constructor_player_array.length; i++) {
-        Constructor_player_array[i].draw();
-    }
-}
-
-/********************/
-/* MINE FUNCTIONS */
-/********************/
-
-// define mine
+*/	
+//THIS WILL DRAW MINE FOR THE PlayerDestructor
+//WE SHOULD CHANGE THE IMAGE
 function Mine() {
-    this.srcX = 0;
-    this.srcY = 600;
-    this.width = 370;
-    this.height = 220;
+    this.srcX = 1;
+    this.srcY = 1290;
+    this.width = 113;
+    this.height = 117;
     this.drawX = 100;
     this.drawY = 19;
     this.centerX = this.drawX + (this.width / 2);
@@ -271,31 +253,170 @@ function Mine() {
 
 }
 
-// draw mine
-Mine.prototype.draw = function () {
-    ctxEntities.drawImage(imgSprite, this.srcX, this.srcY, this.width, this.height, this.drawX, this.drawY, this.width, this.height);
-};
-
-// update mine
 Mine.prototype.update = function () {
     this.centerX = this.drawX + (this.width / 2);
     this.centerY = this.drawY + (this.height / 2);
 };
 
-// collects diamonds at a set interval
-function runCollectDiamonds(playerObj) {	
-	if (playerObj.money < 10000){
-		playerObj.money = playerObj.money + 1;
-		document.getElementById("money").innerHTML = playerObj.money;
-	}
-	else{
-		document.getElementById("money").innerHTML = 10000;
-	}	
+Mine.prototype.draw = function () {
+    //this.drawAllBullets();
+    ctxEntities.drawImage(imgSprite, this.srcX, this.srcY, this.width, this.height, this.drawX, this.drawY, this.width, this.height);
 };
 
-/********************/
-/* BUILDING FUNCTIONS */
-/********************/
+/* struct PlayerVars
+function PlayerVars(money, buildingHeight, miners, builders) {
+	//this variable belongs to this player
+	this.srcX = 0;
+	this.money = money;
+	this.buildingHeight = buildingHeight;
+	this.miners = miners;
+	this.builders = builders;
+}
+ */
+/*	
+function GameVars(winningHeight, minerCost, builderCost) {
+	this.winningHeight = winningHeight;
+	this.minerCost = minerCost;
+	this.builderCost = builderCost;
+}
+*/
+//https://github.com/search?q=Gold+Miner+-+HTML5+Game&type=Code&utf8=%E2%9C%93
+//I am making an assuption that miner costs 100 units 
+function buyMiner(number){
+	if (numberOfMiners < 15) {
+	if (money - 100 < 0) {
+		// placeholder error, fix to display error in game
+		document.write("<p>Not enough money!</p>");
+	}
+	else {
+		// update money and miner count
+		money = money - 100;
+		numberOfMiners = numberOfMiners + number;
+		//Miners_player_array
+		new_miner = new Miners();
+		//data.push({})??
+		Miners_player_array.push(new_miner);
+	}
+	}
+	else{}
+	//miner = miner + number;
+	document.getElementById("miner").innerHTML = numberOfMiners;
+	document.getElementById("money").innerHTML = money;
+}
+
+function buyBuilder(number){
+	if (numberOfBuilders < 15) {
+	if (money - 200 < 0) {
+		// placeholder error, fix to display error in game
+		document.write("<p>Not enough money!</p>");
+	}
+	else {
+		// update money and miner count
+		money = money - 200;
+		numberOfBuilders = numberOfBuilders + number;
+		//Miners_player_array
+		new_builder = new Constructor();
+		//add new  builder to the array - will be used for drawing
+		//??
+		Constructor_player_array.push(new_builder);
+	}
+	}
+	else{}
+	//miner = miner + number;
+	document.getElementById("builder").innerHTML = numberOfBuilders;
+	document.getElementById("money").innerHTML = money;
+}
+
+
+//function that will draw miners on the canvas
+//http://stackoverflow.com/questions/26446284/unexpected-token-this-while-creating-method-inside-object
+//to find postions of the image on the sprite file, use http://getspritexy.com/
+//the problem is that the backgrount of the sprite is not transparrent
+//http://stackoverflow.com/questions/13244458/android-how-to-make-the-background-of-a-sprite-transparent
+//http://forums.getpaint.net/index.php?/topic/12196-making-backgrounds-of-images-transparent/
+//http://jsfiddle.net/ejTCy/7/
+function Miners() {
+	this.srcX = 18;
+    this.srcY = 1203;
+    this.width = 42;
+    this.height = 40;
+    this.drawX = randomRange(0, canvasWidth - this.width);
+    this.drawY = randomRange(0, canvasHeight - this.height);
+	var that = this;
+	this.moveInterval = setInterval(function() {that.loop_miner();}, 200);
+	
+ 
+}
+        var xpos=18, 
+            ypos=1203, 
+            index=0, 
+            numFrames = 36, 
+            frameSize= 35;
+//function to loop through the sprite sheet for miner
+ Miners.prototype.loop_miner = function() {
+            //clear the canvas!
+            //ctxEntities.clearRect(0,0, canvasHeight,canvasWidth);
+
+            ctxEntities.drawImage(imgSprite,xpos,ypos,this.width, this.height,this.drawX, this.drawY,this.width, this.height);
+            
+            //each time around we add the frame size to our xpos, moving along the source image
+            xpos += frameSize;
+            //increase the index so we know which frame of our animation we are currently on
+            index += 2;
+            
+            //if our index is higher than our total number of frames, we're at the end and better start over
+            if (index >= numFrames) {
+                xpos =36;
+                ypos =1203;
+                index=0;    
+            //if we've gotten to the limit of our source image's width, we need to move down one row of frames                
+            } else if (xpos + frameSize > imgSprite.width){
+                xpos =36;
+                ypos += frameSize;
+            }
+            
+            
+        }
+
+//create prototype of the builder
+//adding a method to the object
+Miners.prototype.update = function () {
+    ctxEntities.drawImage(imgSprite,xpos,ypos,this.width, this.height,this.drawX, this.drawY,this.width, this.height);
+};
+//c.drawImage(image, xpos, ypos, frameSize, frameSize, 0, 0, frameSize, frameSize);
+Miners.prototype.draw = function () {
+	//ctxEntities.drawImage(imgSprite, this.srcX, this.srcY, this.width, this.height, this.drawX, this.drawY, this.width, this.height);
+	
+   ctxEntities.drawImage(imgSprite,xpos,ypos,this.width, this.height,this.drawX, this.drawY,this.width, this.height);
+};
+
+
+//change 2 to numMiners_player after u figure out how to keep track of the variable numMiners_player
+function initMiners() {
+    for (var i = 0; i < numberOfMiners; i++) {
+        Miners_player_array[Miners_player_array.length] = new Miners();
+    }
+}
+
+
+function updateAllMiners() {
+    for (var i = 0; i < Miners_player_array.length; i++) {
+        Miners_player_array[i].update();
+    }
+}
+
+function drawAllMiners() {
+    for (var i = 0; i < Miners_player_array.length; i++) {
+        Miners_player_array[i].draw();
+    }
+}
+
+
+
+
+
+//BRICKS
+
 function Bricks(Xa1, Ya1) {
 	this.srcX = 396;
     this.srcY = 627;
@@ -308,6 +429,7 @@ function Bricks(Xa1, Ya1) {
 
 }
         
+
 //create prototype of the builder
 //adding a method to the object
 Bricks.prototype.update = function () {
@@ -320,12 +442,14 @@ Bricks.prototype.draw = function () {
    ctxEntities.drawImage(imgSprite,this.srcX,this.srcY,this.width, this.height,this.drawX, this.drawY,this.width, this.height);
 };
 
+
 //lets start with 1 brick for the user
 function initBricks() {
     for (var i = 0; i < numberOfBricks; i++) {
        Bricks_player_array[Bricks_player_array.length] = new Bricks(9,546);
     }
 }
+
 
 function updateBricks() {
     for (var i = 0; i < Bricks_player_array.length; i++) {
@@ -338,6 +462,7 @@ function drawAllBricks() {
         Bricks_player_array[i].draw();
     }
 }
+ 
  
 function addBrick(){
 	
@@ -419,148 +544,57 @@ function addBrick(){
 	document.getElementById("player_height").innerHTML = numberOfBricks;
 }
 
-/********************/
-/* MINER FUNCTIONS */
-/********************/
-//https://github.com/search?q=Gold+Miner+-+HTML5+Game&type=Code&utf8=%E2%9C%93
-//I am making an assuption that miner costs 100 units 
-function buyMiner() {
-	if (playerVars.money - minerCost < 0) {
-		// placeholder error, fix to display error in game
-		alert("Not enough money!");
-	}
-	else {
-		// update money and miner count
-		playerVars.money = playerVars.money - minerCost;
-		playerVars.numMiners = playerVars.numMiners + 1;
-		// add miner to array
-		var newMiner = new Miner(minerSrcX,minerSrcY,minerWidth,minerHeight);
-		//data.push({})??
-		playerVars.miners.push(newMiner);
-	}
 
-	document.getElementById("miner").innerHTML = playerVars.numMiners;
-	document.getElementById("money").innerHTML = playerVars.money;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//function that digs the gold depending on the number of mines
+function collectDiamonds(){
+if (money < 10000){
+	money = money + numberOfMiners*1;
+	document.getElementById("money").innerHTML = money;
 }
+else{
+	money = 10000;
+}
+	
+};
 
-//function that will draw miners on the canvas
-//http://stackoverflow.com/questions/26446284/unexpected-token-this-while-creating-method-inside-object
-//to find postions of the image on the sprite file, use http://getspritexy.com/
-//the problem is that the backgrount of the sprite is not transparrent
-//http://stackoverflow.com/questions/13244458/android-how-to-make-the-background-of-a-sprite-transparent
-//http://forums.getpaint.net/index.php?/topic/12196-making-backgrounds-of-images-transparent/
-//http://jsfiddle.net/ejTCy/7/
-function Miner(srcX,srcY,width,height) {
-	this.srcX = srcX;
-    this.srcY = srcY;
-    this.width = width;
-    this.height = height;
+function runCollectDiamonds(){
+	setTimeout(collectDiamonds, 600);
+};
+
+//CONSTRUCTORS
+//NEED TO CHANGE IMAGE FOR THE BUILDER
+function Constructor() {
+	this.srcX = 18;
+    this.srcY = 1203;
+    this.width = 42;
+    this.height = 40;
     this.drawX = randomRange(0, canvasWidth - this.width);
     this.drawY = randomRange(0, canvasHeight - this.height);
 	var that = this;
-	this.moveInterval = setInterval(function() {that.loop_miner();}, 200);
-}
-        var xpos=minerSrcX, 
-            ypos=minerSrcY, 
-            index=0, 
-            numFrames = 36, 
-            frameSize= 35;
-			
-//function to loop through the sprite sheet for miner
-Miner.prototype.loop_miner = function() {
-    //clear the canvas!
-    //ctxEntities.clearRect(0,0, canvasHeight,canvasWidth);
-
-    ctxEntities.drawImage(imgSprite,xpos,ypos,this.width, this.height,this.drawX, this.drawY,this.width, this.height);
-            
-    //each time around we add the frame size to our xpos, moving along the source image
-    xpos += frameSize;
-    //increase the index so we know which frame of our animation we are currently on
-    index += 2;
-            
-    //if our index is higher than our total number of frames, we're at the end and better start over
-    if (index >= numFrames) {
-        xpos =36;
-        ypos =1203;
-        index=0;    
-    //if we've gotten to the limit of our source image's width, we need to move down one row of frames                
-    }
-	else if (xpos + frameSize > imgSprite.width){
-        xpos =36;
-        ypos += frameSize;
-	}           
-}
-
-//create prototype of the builder
-//adding a method to the object
-Miner.prototype.update = function () {
-    ctxEntities.drawImage(imgSprite,xpos,ypos,this.width, this.height,this.drawX, this.drawY,this.width, this.height);
-};
-//c.drawImage(image, xpos, ypos, frameSize, frameSize, 0, 0, frameSize, frameSize);
-Miner.prototype.draw = function () {
-	//ctxEntities.drawImage(imgSprite, this.srcX, this.srcY, this.width, this.height, this.drawX, this.drawY, this.width, this.height);
+	this.moveInterval = setInterval(function() {that.loop_constructor();}, 1000);
 	
-   ctxEntities.drawImage(imgSprite,xpos,ypos,this.width, this.height,this.drawX, this.drawY,this.width, this.height);
-};
-
-
-//change 2 to numMiners_player after u figure out how to keep track of the variable numMiners_player
-function initMiners(minerSrcX,minerSrcY,minerWidth,minerHeight) {
-    for (var i = 0; i < playerVars.numMiners; i++) {
-        playerVars.miners[playerVars.miners.length] = new Miner(minerSrcX,minerSrcY,minerWidth,minerHeight);
-    }
+ 
 }
-
-function updateAllMiners() {
-    for (var i = 0; i < playerVars.miners.length; i++) {
-        playerVars.miners[i].update();
-    }
-}
-
-function drawAllMiners() {
-    for (var i = 0; i < playerVars.miners.length; i++) {
-        playerVars.miners[i].draw();
-    }
-}
-
-/********************/
-/* BUILDER FUNCTIONS */
-/********************/
-function Builder(srcX,srcY,width,height) {
-	this.srcX = srcX;
-    this.srcY = srcY;
-    this.width = width;
-    this.height = height;
-    this.drawX = randomRange(0, canvasWidth - this.width);
-    this.drawY = randomRange(0, canvasHeight - this.height);
-	var that = this;
-	this.moveInterval = setInterval(function() {that.loop_builder();}, 200);
-}
-        var xpos=builderSrcX, 
-            ypos=builderSrcY, 
-            index=0, 
-            numFrames = 36, 
-            frameSize= 35;
-
-function buyBuilder(){
-	if (playerVars.money - builderCost < 0) {
-		// placeholder error, fix to display error in game
-		alert("Not enough money!");
-	}
-	else {
-		// update money and miner count
-		playerVars.money = playerVars.money - builderCost;
-		playerVars.numBuilders = playerVars.numBuilders + 1;
-	
-		new_builder = new Builder(builderSrcX,builderSrcY,builderWidth,builderHeight);
-		//add new  builder to the array - will be used for drawing
-		//??
-		playerVars.builders.push(new_builder);
-	}
-
-	document.getElementById("builder").innerHTML = playerVars.numBuilders;
-	document.getElementById("money").innerHTML = playerVars.money;
-}
+            var xpos1=18, 
+            ypos1=1203, 
+            index1=0, 
+            numFrames1 = 18, 
+            frameSize1= 35;
 //function to loop through the sprite sheet for miner
 Constructor.prototype.loop_constructor = function() {
             //clear the canvas!
@@ -596,73 +630,35 @@ Constructor.prototype.update = function () {
     ctxEntities.drawImage(imgSprite,xpos,ypos,this.width, this.height,this.drawX, this.drawY,this.width, this.height);
    //this.checkDirection();
 };
-
 //c.drawImage(image, xpos, ypos, frameSize, frameSize, 0, 0, frameSize, frameSize);
 Constructor.prototype.draw = function () {
 	//ctxEntities.drawImage(imgSprite, this.srcX, this.srcY, this.width, this.height, this.drawX, this.drawY, this.width, this.height);
 	
    ctxEntities.drawImage(imgSprite,xpos,ypos,this.width, this.height,this.drawX, this.drawY,this.width, this.height);
 };
-function drawAllBuilders() {
-	for (var i = 0; i < playerVars.builders.length; i++) {
-		playerVars.builders[i].draw();
-	}
-}
-
-
-	//var Xa, Ya;
-//lets define a building block of the building
-//Xa and Ya are the coordinates on the canvas where the brick will be drawn
-/*
-function Brick(Xa, Ya) {
-	this.srcX = 396;
-    this.srcY = 627;
-    this.width = 40;
-    this.height = 23;
-	this.drawX = Xa;
-	this.drawY = Ya;
-}
-
-//function to add bricks
-
-function initBricks() {
-    for (var i = 0; i < nuber_of_bricks_building_player; i++) {
-       brick_array_player[brick_array_player.length] = new Brick(9, 546);
-    }
-}
-
-Brick.prototype.draw = function () {
-	//ctxEntities.drawImage(imgSprite, this.srcX, this.srcY, this.width, this.height, this.drawX, this.drawY, this.width, this.height);
-
-		   ctxEntities.drawImage(imgSprite,this.srcX, this.srcX,this.width, this.height,this.drawX , this.drawY,this.width, this.height);
-	
-   };
 
 
 //change 2 to numMiners_player after u figure out how to keep track of the variable numMiners_player
-/*
-at the begining of the game we do not have any bricks, so we do not need to initialize brick array
-function initBricks() {
-    for (var i = 0; i < nuber_of_bricks_building_player; i++) {
-        brick_array_player[brick_array_player.length] = new Brick();
-    }
-}F
-
-function updateAllBricks() {
-    for (var i = 0; i < brick_array_player.length; i++) {
-        brick_array_player[i].update();
+function initConstructor() {
+    for (var i = 0; i < numberOfBuilders; i++) {
+       Constructor_player_array[Constructor_player_array.length] = new Constructor();
     }
 }
 
-function drawAllBricks() {
-	//numberOfBlicksLeft = brick_array_player.length;
-    for (var i = 0; i < brick_array_player.length; i++) {
-		brick_array_player[i].draw();
+
+
+
+function updateAllConstructor() {
+    for (var i = 0; i < Constructor_player_array.length; i++) {
+        Constructor_player_array[i].update();
     }
-		
 }
 
-*/	
+function drawAllConstructor() {
+    for (var i = 0; i < Constructor_player_array.length; i++) {
+        Constructor_player_array[i].draw();
+    }
+}
 
 
 /* I am waiting to hear back from the instructor if we are allowed to use

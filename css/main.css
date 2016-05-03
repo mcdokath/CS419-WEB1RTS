@@ -43,6 +43,16 @@ button:hover {
 	text-decoration: none;	
 }
 
+.container {
+	min-width:300px;
+	width:90%;
+	max-width:1600px;
+	background-color:rgba(255,255,255,0.5);
+	margin-left:auto;
+	margin-right:auto;
+	overflow:auto;
+}
+
 #loginscreen {
 	display:block;
 	width:60%;
@@ -79,13 +89,4 @@ footer {
 	position:fixed;
 	width:100%;
 	z-index:100;
-}
-
-.container {
-	min-width:1350px;
-	max-width:1600px;
-	background-color:rgba(255,255,255,0.5);
-	margin-left:auto;
-	margin-right:auto;
-	overflow:auto;
 }
