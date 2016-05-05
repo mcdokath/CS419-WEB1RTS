@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <title>Collision Test</title>
+
+        <!--<link rel="stylesheet" href="css/style.css">-->
+
+
+
+  </head>
+
+  
+  <body onload="init();" tabindex="0">
+    <!--For Easel.js-->
+    <div id='title' class='flexRow'>
+      <h1 class="insetShadow">Collision Test<h1>
+    </div>
+        <!--Content area-->
+    <div class="flexRow">
+      <div class="statsLeft">
+        <h3>Player</h3>
+        <p id="player1_hp">Loading...</p>
+        <p id="player1_stats"></p>
+      </div>
+    <div>
+        <canvas id = "testCanvas" width="640" height="250"></canvas>
+    </div>
+      <div class="statsRight">
+        <h3>CPU</h3>
+        <p id="enemy1_hp">Loading...</p>
+        <p id="enemy1_stats"></p>
+        
+      </div>
+    </div>
+        
+
+        
+        
+        <!--Instructions-->
+     <!--
+     <div class="center getFocus">
+       <div class="btn" onclick="document.body.style.background = '#222'; getElementById('getFocus').style.display = 'none'; getElementById('title').style.display = 'none'; gameRunning=true;"> <h2 id="getFocus">Start</h2></div>
+       <div class="joystick flewRow">
+         <span class="btn up">Up</span>
+       </div>
+       <div class="joystick flexRow">
+         <span class="btn left">Left</span>
+         <span class="btn right">Right</span>
+       </div>
+       -->
+       <!--<p><b>W A S D</b> or <b>Arrow Keys</b> to move || <b>X</b> to parry ||<b> Spacebar</b> to attack </p>-->
+      
+       
+    </div>
+
+  </body>
+        <script src='https://code.createjs.com/easeljs-0.8.1.min.js'></script>
+        <script src='https://code.createjs.com/preloadjs-0.6.1.min.js'></script>
+        <script src='https://code.createjs.com/tweenjs-0.6.2.min.js'></script>
+
+        <script src="js/index.js"></script>
+    
+
+</html>
