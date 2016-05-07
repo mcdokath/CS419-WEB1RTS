@@ -60,7 +60,7 @@
 				//console.log("handleClick");
 				arrayOfRobots[robotIndex] = new createjs.Bitmap("assets/robotbuilder.png");
 				arrayOfRobots[robotIndex].x = Math.floor(Math.random()*500);
-				arrayOfRobots[robotIndex].y = Math.floor(Math.random()*500);
+				arrayOfRobots[robotIndex].y = Math.floor(Math.random()*300);
 				console.log("x=", arrayOfRobots[robotIndex].x);
 				console.log("y=", arrayOfRobots[robotIndex].y);
 
@@ -85,6 +85,33 @@
 				stage.update();
 			}
 
+			function deletePrevSavedRobots()
+			{
+				$.ajax({
+					url: 'loadtest3.php',
+					dataType: 'json'
+				});
+			}
+
+			//http://stackoverflow.com/questions/12027105/best-approach-to-add-records-into-db-using-php-ajax-mysql
+			function saveRobotCoords()
+			{
+				deletePrevSavedRobots();
+
+				for(var i = 0; i < arrayOfRobots.length; i++)
+				{
+					var postData = {
+						robot_id: i,
+					    x_coord: arrayOfRobots[i].x,
+					    y_coord: arrayOfRobots[i].y
+					};
+
+					$.post('test2.php', postData)
+					 .done(function(response) {
+					    alert("Data Loaded: " + response);
+					});
+				}
+			}
 
 
 		</script>
@@ -92,8 +119,12 @@
 
 	</head>
 	<body onload="init()">
-		<canvas id="myCanvas" width="500" height="500">
+
+		<canvas id="myCanvas" width="500" height="300">
 			Alternative Content
 		</canvas>
+
+		<button onclick="saveRobotCoords()">Save Game</button> 
+		
 	</body>
 </html>
