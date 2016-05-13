@@ -112,7 +112,7 @@ function init(){
 	initBricks();
 	//definePlayerMine();
 	begin();
-	//setTimeout(collectDiamons, 600);
+	//setTimeout(collectDiamonds, 600);
 	
 }	
 
@@ -165,9 +165,9 @@ function update() {
 	destructor.update();
 	//updateAllEnemyMiners();
 	
-	//collectDiamons();
-	//setTimeout(collectDiamons, 600);
-	//runCollectDimanons();
+	//collectDiamonds();
+	//setTimeout(collectDiamonds, 600);
+	//runCollectDiamonds();
 	enemydestructor .update();
 	if(!enemy){
 		enemy2 = new EnemyDestructor();
@@ -193,7 +193,7 @@ function loop() {
 		//update the draw loop
         update();
 		//draw everything that we need to 
-		//setTimeout(collectDiamons, 600);
+		//setTimeout(collectDiamonds, 600);
         draw();
         requestAnimFrame(loop);
     }
@@ -203,7 +203,7 @@ function loop() {
 function loopdiamonds() {
 	//check and make sure that the game is playing
     if (isPlaying) {
-		collectDiamons();
+		collectDiamonds();
 		addBrick();
 		requestAnimFrame(loopdiamonds);
     }
@@ -581,7 +581,7 @@ function addBrick(){
 
 
 //function that digs the gold depending on the number of mines
-function collectDiamons(){
+function collectDiamonds(){
 if (money < 10000){
 	money = money + numberOfMiners*1;
 	document.getElementById("money").innerHTML = money;
@@ -592,8 +592,8 @@ else{
 	
 };
 
-function runCollectDimanons(){
-	setTimeout(collectDiamons, 600000);
+function runCollectDiamonds(){
+	setTimeout(collectDiamonds, 600000);
 };
 
 //CONSTRUCTORS
@@ -990,4 +990,49 @@ function die(){
 	//enemy2.ctxEntities =null;
 	delete enemydestructor.ctxEntities;
 	
+}
+
+
+
+//DATABASE INTERACTIONS
+ //******not usable yet***********
+ //just wanted to show how it will work
+
+
+//deletes the previously saved robots already in database, if any
+function deletePrevSavedGames()
+{
+	$.ajax({
+		url: 'php/delete_contents.php', //php file; doesn't work yet! Need to know all variables to save
+		dataType: 'json'
+	});
+}
+
+//http://stackoverflow.com/questions/12027105/best-approach-to-add-records-into-db-using-php-ajax-mysql
+function saveGame()
+{
+	deletePrevSavedGames();
+
+	for(var i = 0; i < arrayOfRobots.length; i++)
+	{
+		//type in all game variables to be saved here
+		var postData = {
+			robot_id: i,
+		    x_coord: arrayOfRobots[i].x,
+		    y_coord: arrayOfRobots[i].y
+			
+			//
+
+			//This is where we create key-value pairs with all the variables we need to save
+			//Save it to postData object
+
+			//
+
+		};
+
+		$.post('php/save_game.php', postData) //php file; doesn't work yet! Need to know all variables to save
+		 .done(function(response) {
+		    alert("Data Loaded: " + response); //can get rid of this
+		});
+	}
 }
