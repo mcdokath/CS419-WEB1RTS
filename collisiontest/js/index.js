@@ -10,7 +10,7 @@ var spriteSheetNinja = "assets/Ninja2.png";
 var gameRunning = false;
 
 //Holds the display text
-var displayTextArray = [];
+//var displayTextArray = [];
 
 //======BATTLE RPG ENGINE======//
 //==============================//
@@ -173,7 +173,7 @@ function tick(event){
   //Text animation
   //Add display
 
-  updateText(displayTextArray);
+  //updateText(displayTextArray);
   stage.update(event);
 }
 
@@ -408,53 +408,6 @@ function determineHit(attacker, defender) {
     
 }
 
-//Simple Roll Function
-function roll(maxRoll, noOfDice){
-  var total=0;
-  for (var i=noOfDice; i>0; i--){
-    var tempRoll = Math.ceil(Math.random() * maxRoll);
-    total += tempRoll;
-  }
-    return total;
-}
-
-//=====================
-//create Text Function
-//TEXT, COLOR, the displayObject the text displays over
-function createText(text_string, color_string, target) {
-  var text_miss = new createjs.Text(text_string, "48px VT323", color_string);
-
-  
-  //delay before the text appears
-  setTimeout(function() {
-    stage.addChild(text_miss);
-  }, 400); //# of frames when parry happens
-  
-  displayTextArray.push(text_miss);
-
-  
-  text_miss.x = target.x - 25;
-}
-
-//==TextUpdate==========
-//tweens each text from the array and animates and once complete will delete
-function updateText(textArray) {
-  if (textArray.length > 0) {
-    for (var i = 0; i < textArray.length; i++) {
-          createjs.Tween.get(textArray[i])
-            .wait(400)
-          
-            .to({scaleX:1.2, scaleY:1.2}, 400)
-            .to({alpha:0, visible:false}, 800)
-            .call(handleComplete);
-          function handleComplete() {
-              textArray.splice(i, 1); //removes the text from the array
-          }
-      }
-    }
-  }
-//=========//
-
 function damageHP(target, damage){
   if(target.hp - damage <= 0){
     //dead
@@ -473,6 +426,61 @@ function damageHP(target, damage){
   }
 }
 
+//Simple Roll Function
+/*
+function roll(maxRoll, noOfDice){
+  var total=0;
+  for (var i=noOfDice; i>0; i--){
+    var tempRoll = Math.ceil(Math.random() * maxRoll);
+    total += tempRoll;
+  }
+    return total;
+}
+*/
+
+//=====================
+//create Text Function
+//TEXT, COLOR, the displayObject the text displays over
+/*
+function createText(text_string, color_string, target) {
+  var text_miss = new createjs.Text(text_string, "48px VT323", color_string);
+
+  
+  //delay before the text appears
+  setTimeout(function() {
+    stage.addChild(text_miss);
+  }, 400); //# of frames when parry happens
+  
+  displayTextArray.push(text_miss);
+
+  
+  text_miss.x = target.x - 25;
+}
+*/
+//==TextUpdate==========
+//tweens each text from the array and animates and once complete will delete
+/*
+function updateText(textArray) {
+  if (textArray.length > 0) {
+    for (var i = 0; i < textArray.length; i++) {
+          createjs.Tween.get(textArray[i])
+            .wait(400)
+          
+            .to({scaleX:1.2, scaleY:1.2}, 400)
+            .to({alpha:0, visible:false}, 800)
+            .call(handleComplete);
+          function handleComplete() {
+              textArray.splice(i, 1); //removes the text from the array
+          }
+      }
+    }
+  }
+  */
+//=========//
+
+
+
+/*
 function AImoveAttack(npc, target){
   var distance = npc.sprite.x - target.sprite.x;
   if(distance > 50){
@@ -485,3 +493,4 @@ function AImoveAttack(npc, target){
   }
 
 }
+*/
