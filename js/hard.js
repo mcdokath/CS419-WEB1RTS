@@ -100,7 +100,18 @@ var canvasBg = document.getElementById("canvasBg"),
 	//and then we call the finction initializer
 	imgSprite.addEventListener("load", init, false);
 	
-	
+	// create spritesheet and assign the associated data.
+	//https://www.davrous.com/2012/03/16/html5-gaming-animating-sprites-in-canvas-with-easeljs/
+//destructor fighting
+	var spriteSheet = new createjs.SpriteSheet({
+    // image to use
+    images: [imgSprite], 
+    // width, height & registration point of each sprite
+    frames: {width: 87, height: 118, regX: 3, regY: 997}, 
+    animations: {    
+        fight: [3, 87, "fight"]
+    }
+});
 	
 function init(){
 	//for more infomration about even listener see http://stackoverflow.com/questions/17513317/use-of-addeventlistener-in-js
@@ -112,7 +123,7 @@ function init(){
 	initBricks();
 	//definePlayerMine();
 	begin();
-	//setTimeout(collectDiamonds, 600);
+	//setTimeout(collectDiamons, 600);
 	
 }	
 
@@ -165,9 +176,9 @@ function update() {
 	destructor.update();
 	//updateAllEnemyMiners();
 	
-	//collectDiamonds();
-	//setTimeout(collectDiamonds, 600);
-	//runCollectDiamonds();
+	//collectDiamons();
+	//setTimeout(collectDiamons, 600);
+	//runCollectDimanons();
 	enemydestructor .update();
 	if(!enemy){
 		enemy2 = new EnemyDestructor();
@@ -193,7 +204,7 @@ function loop() {
 		//update the draw loop
         update();
 		//draw everything that we need to 
-		//setTimeout(collectDiamonds, 600);
+		//setTimeout(collectDiamons, 600);
         draw();
         requestAnimFrame(loop);
     }
@@ -203,7 +214,7 @@ function loop() {
 function loopdiamonds() {
 	//check and make sure that the game is playing
     if (isPlaying) {
-		collectDiamonds();
+		collectDiamons();
 		addBrick();
 		requestAnimFrame(loopdiamonds);
     }
@@ -223,66 +234,6 @@ function randomRange (min, max) {
     return Math.floor(Math.random() * (max + 1 - min)) + min;
 }
 
-/*
-	//var Xa, Ya;
-//lets define a building block of the building
-//Xa and Ya are the coordinates on the canvas where the brick will be drawn
-
-function Brick(Xa, Ya) {
-	this.srcX = 179;
-    this.srcY = 679;
-    this.width = 40;
-    this.height = 23;
-	this.drawX = Xa;
-	this.drawY = Ya;
-}
-
-//function to add bricks
-
-function initBricks() {
-    for (var i = 0; i < nuber_of_bricks_building_player; i++) {
-       brick_array_player[brick_array_player.length] = new Brick(29, 546);
-    }
-}
-//create prototype of the builder
-//adding a method to the object
-Brick.prototype.update = function () {    	
-    ctxEntities.drawImage(imgSprite, this.srcX, this.srcX,this.width, this.height,this.drawX , this.drawY,this.width, this.height);
-
-};
-//c.drawImage(image, xpos, ypos, frameSize, frameSize, 0, 0, frameSize, frameSize);
-
-Brick.prototype.draw = function () {
-	//ctxEntities.drawImage(imgSprite, this.srcX, this.srcY, this.width, this.height, this.drawX, this.drawY, this.width, this.height);
-
-		   ctxEntities.drawImage(imgSprite,this.srcX, this.srcX,this.width, this.height,this.drawX , this.drawY,this.width, this.height);
-	
-   };
-
-
-//change 2 to numMiners_player after u figure out how to keep track of the variable numMiners_player
-
-//at the begining of the game we do not have any bricks, so we do not need to initialize brick array
-function initBricks() {
-    for (var i = 0; i < nuber_of_bricks_building_player; i++) {
-        brick_array_player[brick_array_player.length] = new Brick();
-    }
-}
-
-function updateAllBricks() {
-    for (var i = 0; i < brick_array_player.length; i++) {
-        brick_array_player[i].update();
-    }
-}
-
-function drawAllBricks() {
-	//numberOfBlicksLeft = brick_array_player.length;
-    for (var i = 0; i < brick_array_player.length; i++) {
-		brick_array_player[i].draw();
-    }
-		
-}
-*/
 
 
 	
@@ -581,7 +532,7 @@ function addBrick(){
 
 
 //function that digs the gold depending on the number of mines
-function collectDiamonds(){
+function collectDiamons(){
 if (money < 10000){
 	money = money + numberOfMiners*1;
 	document.getElementById("money").innerHTML = money;
@@ -592,8 +543,8 @@ else{
 	
 };
 
-function runCollectDiamonds(){
-	setTimeout(collectDiamonds, 600000);
+function runCollectDimanons(){
+	setTimeout(collectDiamons, 600000);
 };
 
 //CONSTRUCTORS
@@ -683,83 +634,12 @@ function drawAllConstructor() {
 
 
 
-function baseball() {
-    this.radius = 2;
-    this.width = this.radius * 2;
-    this.height = this.radius * 2;
-    this.drawX = 0;
-    this.drawY = 0;
-    this.isFlying = false;
-    this.xVel = 0;
-    this.yVel = 0;
-    this.speed = 6;
-}
-
-baseball.prototype.update = function () {
-    this.drawX += this.xVel;
-    this.drawY += this.yVel;
-    this.checkHitEnemy();
-    //this.checkHitObstacle();
-    //this.checkOutOfBounds();
-};
-
-baseball.prototype.draw = function () {
-    ctxEntities.fillStyle = "yellow";
-    ctxEntities.beginPath();
-    ctxEntities.arc(this.drawX, this.drawY, this.radius, 0, Math.PI * 2, false);
-    ctxEntities.closePath();
-    ctxEntities.fill();
-};
-
-baseball.prototype.fire = function (startX, startY) {
-    this.drawX = startX;
-    this.drawY = startY;
-	if (destructor.srcX === 292) { // Facing west
-        this.xVel = -this.speed;
-        this.yVel = 0;
-    } else if (destructor.srcX === 3) { // Facing east
-        this.xVel = this.speed;
-        this.yVel = 0;
-    }
-    this.isFlying = true;
-};
-
-baseball.prototype.recycle = function () {
-    this.isFlying = false;
-};
-
-baseball.prototype.checkHitEnemy = function () {
-    //for (var i = 0; i < Miners_enemy_array.length; i++) {
-        if (collision(this, enemy2) && !enemy2.isDead) {
-          this.recycle();
-           enemy2.die();
-        }
-    //}
-};
-
-baseball.prototype.checkHitObstacle = function () {
-    for (var i = 0; i < obstacles.length; i++) {
-        if (collision(this, obstacles[i])) {
-            this.recycle();
-        }
-    }
-};
-
-baseball.prototype.checkOutOfBounds = function () {
-    if (outOfBounds(this, this.drawX, this.drawY)) {
-        this.recycle();
-    }
-};
-	
-
-
-
-
 
 //lets do a destructor for the player - ill start with 1
 
 //now lets make enemies
 //lets do a destructor for the player - ill start with 1
+
 function Destructor() {
 
     this.srcX = 3;
@@ -780,30 +660,30 @@ function Destructor() {
     this.isLeftKey = false;
     this.isSpacebar = false;
     this.isHitting = false;
-	this.moveImage;
-	this.that;
-	var numbaseballs = 1000;
-    this.baseballs = [];
-    this.currentbaseball = 0;
-    for (var i = 0; i < numbaseballs; i++) {
-        this.baseballs[this.baseballs.length] = new baseball();
-    }
+
+	
+
+
 
 }
 
 Destructor.prototype.draw = function () {
-	this.drawAllbaseballs();
+
 
     ctxEntities.drawImage(imgSprite, this.srcX, this.srcY, this.width, this.height, this.drawX, this.drawY, this.width, this.height);
 };
 
+//clickable monsters
+//https://retrosnob.files.wordpress.com/2014/10/foundation-game-design-with-html5-and-javascript-v413hav-1.pdf
 Destructor.prototype.update = function () {
     this.centerX = this.drawX + (this.width / 2);
     this.centerY = this.drawY + (this.height / 2);
     this.checkDirection();
 	this.checkHitting();
+	//this.checkHitEnemy();
+	//ctxEntities.drawImage(imgSprite,xpos4,ypos4,this.width, this.height,this.drawX, this.drawY,this.width, this.height);
 	//this.checkHitting();
-	this.updateAllbaseballs();
+
 
 };
 
@@ -826,101 +706,64 @@ Destructor.prototype.checkDirection = function () {
         this.drawY = newDrawY;
 };
 
-           var xpos4=0, 
-            ypos4=992, 
-            index4=0, 
-            numFrames4 = 2, 
-            frameSize4= 87;
+
+
+
+//https://gablaxian.com/articles/creating-a-game-with-javascript/animation
+//https://www.davrous.com/2012/03/16/html5-gaming-animating-sprites-in-canvas-with-easeljs/			
+//#https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Basic_animations
+//http://tutorialspots.com/html5-canvas-create-animated-character-with-sprite-sheets-1352.html
 Destructor.prototype.checkHitting = function () {
-	var newX = this.srcX;
-	//var newX2 = this.srcX;
-	var oldX;
+	//var newX = this.srcX;
+	var newX2 = this.srcX;
+	var seq;
+	var currentSequence;
+	//var oldX;
     if (this.isSpacebar && !this.isHitting) {
         this.isHitting = true;
-		this.baseballs[this.currentbaseball].fire(this.centerX, this.centerY);
-        this.currentbaseball++;
-        if (this.currentbaseball >= this.baseballs.length) {
-            this.currentbaseball = 0;
-        }
+
+
 	//now we need do change the image of the destructor to animate the hitting
+	//gotoAndPlay("fight");
+	var newX = this.srcX;
 	newX = 87;
 	this.srcX = newX;
-	//newX = 0;
-	//this.srcX = newX2;
+	//newX = 3;
+	this.srcX = newX;
+	//this.that;
+	        if (collision(this, enemydestructor)) {
+            //this.recycle();
+            enemydestructor.die();
+        }
+	
+	//this.moveInterval = setInterval(function() {that.loop_destructor_hitting();}, 200);
+	//this.srcX = this.state[0]*this.
 
     } else if (!this.isSpacebar) {
         this.isHitting = false;
+	var oldX = this.srcX;
+	oldX = 3;
+	this.srcX = oldX;
+	//newX = 3;
+	this.srcX = oldX;
 
     }
-	//here I am trying to go back to the original image, but it does not go there
-		oldX = 0;
-		oldX= this.srcX;
-		this.srcX = oldX;
+
 };
 
 
-
-
-Destructor.prototype.updateAllbaseballs = function () {
-    for (var i = 0; i < this.baseballs.length; i++) {
-        if (this.baseballs[i].isFlying) {
-            this.baseballs[i].update();
-        }
-    }
-};
-
-Destructor.prototype.drawAllbaseballs = function () {
-    for (var i = 0; i < this.baseballs.length; i++) {
-        if (this.baseballs[i].isFlying) {
-            this.baseballs[i].draw();
-        }
-    }
-};
-
-
-
-
-
-
-
-
-
-
-
-
-//function to loop through the sprite sheet for the destructor, when destructor is hitting an object
-           var xpos4=0, 
-            ypos4=992, 
-            index4=0, 
-            numFrames4 = 2, 
-            frameSize4= 87;
-Destructor.prototype.loop_destructor_hitting= function() {
-            //clear the canvas!
-            //ctxEntities.clearRect(0,0, canvasHeight,canvasWidth);
-
-            ctxEntities.drawImage(imgSprite,xpos4,ypos4,this.width, this.height,this.drawX, this.drawY,this.width, this.height);
-            
-            //each time around we add the frame size to our xpos, moving along the source imagebc
-            //each time around we add the frame size to our xpos, moving along the source image
-            xpos4 += frameSize4;
-            //increase the index so we know which frame of our animation we are currently on
-            index1 += 1;
-            
-            //if our index is higher than our total number of frames, we're at the end and better start over
-            if (index4 >= numFrames4) {
-                xpos4 =0;
-                ypos4 =992;
-                index4=0;    
-            //if we've gotten to the limit of our source image's width, we need to move down one row of frames                
-            }// else if (xpos1 + frameSize1 > imgSprite.width){
-                //xpos1 =1;
-                //ypos1 += frameSize1;
-            //}
-            
-            
-        }
 		
-	
+//check if the enemies destructor was hit
+
+Destructor.prototype.checkHitEnemy = function () {
+	//we are still trying to decide if we will have 1 or more destructor
+    //for (var i = 0; i < enemies.length; i++) {
+        if (collision(this, enemydestructor)) {
+            //this.recycle();
+            enemydestructor.die();
+        }
+    //}
+};	
 
 	
 		
@@ -934,10 +777,10 @@ Destructor.prototype.loop_destructor_hitting= function() {
 //lets do a destructor for the player - ill start with 1
 function EnemyDestructor() {
 
-    this.srcX = 394;
-    this.srcY = 995;
+    this.srcX = 684;
+    this.srcY = 992;
     this.width = 90;
-    this.height = 115;
+    this.height = 118;
 	//original location where to place the destructor
     this.drawX = randomRange(0, canvasWidth - this.width);
     this.drawY = randomRange(0, canvasHeight - this.height);
@@ -946,50 +789,107 @@ function EnemyDestructor() {
 	this.dirx = 0;
 	this.diry =0;
 	this.isDead = false;
+	this.isHitting = false;
+							        //hit collision
+	var xDistance = Math.abs(this.drawX - destructor.drawX);
+						        
+						        //if close enough and hit roll
+						       
 
+	var that = this;
+	 //if(xDistance < 100 && this.isDead == false){
+	//this.isDead = false;
+	//this.moveInterval = setInterval(function() {that.loop_enemy_destructor_fighting();}, 200);
+	// }
+	
+ 
 }
 
 
+            var xpos5=587, 
+            ypos5=983, 
+            index5=90, 
+            numFrames5 = 2, 
+            frameSize5= 90;
+//function to loop through the sprite sheet for miner
+EnemyDestructor.prototype.loop_enemy_destructor_fighting = function() {
+            //clear the canvas!
+            //ctxEntities.clearRect(0,0, canvasHeight,canvasWidth);
+
+            ctxEntities.drawImage(imgSprite,xpos5,ypos5,this.width, this.height,this.drawX, this.drawY,this.width, this.height);
+            
+            //each time around we add the frame size to our xpos, moving along the source imagebc
+            //each time around we add the frame size to our xpos, moving along the source image
+            xpos5 += frameSize5;
+            //increase the index so we know which frame of our animation we are currently on
+            index5 += 1;
+            
+            //if our index is higher than our total number of frames, we're at the end and better start over
+            if (index5 >= numFrames5) {
+                xpos5 =587;
+                ypos5 =983;
+                index5=90;    
+            //if we've gotten to the limit of our source image's width, we need to move down one row of frames                
+            }// else if (xpos1 + frameSize1 > imgSprite.width){
+                //xpos1 =1;
+                //ypos1 += frameSize1;
+            //}
+            
+            
+        }
 EnemyDestructor.prototype.draw = function () {
 	
-    ctxEntities.drawImage(imgSprite, this.srcX, this.srcY, this.width, this.height, this.drawX, this.drawY, this.width, this.height);
+    ctxEntities.drawImage(imgSprite, this.srcX,this.srcY, this.width, this.height, this.drawX, this.drawY, this.width, this.height);
 
 	
 	};
 
+EnemyDestructor.prototype.die = function () {
+   // var soundEffect = new Audio("audio/dying.wav");
+    //soundEffect.play();
+	this.isDead = true;
+
+   clearInterval(this.moveInterval);
+    this.srcX = 658;
+	this.srcY = 851;
+	xpos5 = 658;
+	ypos5 = 851;
+
+};
 
 //we want to make sure that enemy destructor is moving towards the players destructor
 EnemyDestructor.prototype.update = function () {
-
-		   if(destructor.drawX  < (this.drawX ) ) {this.dirx = -this.speed;} 
-		   if(destructor.drawX  > (this.drawX) ){this.dirx = this.speed;}
+	
+	
+			//we want to make sure that the destructor is moving towards the players destructor
+		    if(destructor.drawX  < (this.drawX ) ) {this.dirx = -this.speed;} 
+		    if(destructor.drawX  > (this.drawX) ){this.dirx = this.speed;}
 			if(destructor.drawY < this.drawY){this.diry = -this.speed;}
 			if(destructor.drawY > this.drawY){this.diry = this.speed;}
 			this.drawX = this.drawX + this.dirx;
 			this.drawY =  this.drawY + this.diry;
+			//ctxEntities.drawImage(imgSprite,xpos5,ypos5,this.width, this.height,this.drawX, this.drawY,this.width, this.height);
+			//also as the destructor is approaching the player, the AIs destructor wants to start attacking
+			//players destructor
    
 };
 
 
 
 
-EnemyDestructor.prototype.die = function () {
-    this.isDead = true;
-	die();
-};
-
 
 //collision detection
-function collision(object1, object2) {
-    return object1.drawX <= object2.drawX + object2.width && object1.drawX >= object2.drawX &&
-	object1.drawY <= object2.drawY + object2.height && object1.drawY >= object2.drawY;
-}
 
-
-function die(){
-	//enemy2.ctxEntities =null;
-	delete enemydestructor.ctxEntities;
+//https://retrosnob.files.wordpress.com/2014/10/foundation-game-design-with-html5-and-javascript-v413hav-1.pdf
+//for the description of the collision function, see refference above
+function collision(a, b) {
 	
+	var vx = (a.drawX+ (a.width/2)) - (b.drawX+ (b.width/2));
+	var vy = (a.drawY+ (a.height/2)) - (b.drawY+ (b.height/2));
+	var magnitude = Math.sqrt(vx*vx +vy*vy);
+	var totalRadii = a.width/2 + b.width/2;
+	var hit = magnitude < totalRadii;
+	return hit;
 }
 
 
