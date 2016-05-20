@@ -1,148 +1,74 @@
 //game variables
 var gameVars = {
 	minerCost: 100,
-	builderCost: 200
+	builderCost: 200,
+	brickWidth: 7,
+	brickHeight: 2,
+	bricksPerRow: 6
 };
 
 // player variables
 var playerVars = {
+	bricks: 1, // total bricks
+	firstBrickX: 80, // where to start new row
+	lastBrickX: 80, // X coordinate of last brick
+	lastBrickY: 136, // Y coordinate of last brick
+	numBricksRow: 1, // number of bricks in current row
 	money: 200,
 	numMiners: 1,
 	numBuilders: 1,
 	//mine: new Mine(),
 	miners: [],
-	builders: []
+	builders: [],
+	spawnX: 90, // X coordinate of where new units will spawn
+	spawnY: 25 // Y coordinate of where new units will spawn
 };
 
 // enemy AI variables
 var enemyVars = {
+	bricks: 1, // total bricks
+	firstBrickX: 176, // where to start new row
+	lastBrickX: 176, // X coordinate of last brick
+	lastBrickY: 136, // Y coordinate of last brick
+	numBricksRow: 1, // number of bricks in current row
 	money: 20,
 	numMiners: 1,
 	numBuilders: 1,
 	//mine: new Mine(),
 	miners: [],
-	builders: []
+	builders: [],
+	spawnX: 185, // X coordinate of where new units will spawn
+	spawnY: 25 // Y coordinate of where new units will spawn
 };
 
-// collects diamonds at a set interval
-function runCollectDiamonds(playerObj) {	
-	if (playerObj.money < 10000){
-		playerObj.money = playerObj.money + 1;
-		document.getElementById("money").innerHTML = playerObj.money;
-	}
-	else{
-		document.getElementById("money").innerHTML = 10000;
-	}	
-};
- 
-function addBrick(){
-	
-	if (numberOfBricks< 45) {
-		/*
-		var Xa, Ya;
-		var i = numberOfBricks;
-		if ( i == 1 || 6 || 11 || 16 || 21 || 26 || 31 || 36 || 41 || 46){Xa = 9;}
-		if ( i == 2 || 7 || 12 || 17 || 22 || 27 || 32 || 37 || 42 || 47){Xa = 49;}
-		if ( i == 3 || 8 || 13 || 18 || 23 || 28 || 33 || 38 || 43 || 48){Xa = 89;}
-		if ( i == 4 || 9 || 14 || 19 || 24 || 29 || 34 || 39 || 44 || 49){Xa = 129;}
-		if ( i == 5 || 10 || 15 || 20 || 25 || 30 || 35 || 40 || 45 || 50){Xa = 169;}
-		if ( i == 1 || 2 || 3 || 4 || 5 ){Ya = 546;}
-		if ( i == 7 || 7 || 8 || 9 || 10 ){Ya = 46;}
-		if ( i == 11 || 12 || 13 || 14 || 15 ){Ya = 69;}
-		if ( i == 16 || 17 || 18 || 19 || 20 ){Ya = 92;}
-		if ( i == 21 || 22 || 23 || 24 || 25 ){Ya = 115;}
-		if ( i == 26 || 27 || 28 || 29 || 30){Ya = 138;}
-		if ( i == 31 || 32 || 33 || 34 || 35 ){Ya = 161;}
-		if ( i == 36 || 37 || 38 || 39 || 40 ){Ya = 184;}
-		if ( i == 41 || 42 || 43 || 44 || 45 ){Ya = 207;}
-		if ( i == 46 || 47 || 48 || 49 || 50){Ya = 230;}
-		*/
-		if (numberOfBricks == 1) {newbrick = new Bricks(49,546);}
-		if (numberOfBricks == 2) {newbrick = new Bricks(89,546);}
-		if (numberOfBricks == 3) {newbrick = new Bricks(129,546);}
-		if (numberOfBricks == 4) {newbrick = new Bricks(169,546);}
-		if (numberOfBricks == 5) {newbrick = new Bricks(9,523);}
-		if (numberOfBricks == 6) {newbrick = new Bricks(49,523);}
-		if (numberOfBricks == 7) {newbrick = new Bricks(89,523);}
-		if (numberOfBricks == 8) {newbrick = new Bricks(129,523);}
-		if (numberOfBricks == 9) {newbrick = new Bricks(169,523);}
-		if (numberOfBricks == 10) {newbrick = new Bricks(9,500);}
-		if (numberOfBricks == 11) {newbrick = new Bricks(49,500);}
-		if (numberOfBricks == 12) {newbrick = new Bricks(89,500);}
-		if (numberOfBricks == 13) {newbrick = new Bricks(129,500);}
-		if (numberOfBricks == 14) {newbrick = new Bricks(169,500);}
-		if (numberOfBricks == 15) {newbrick = new Bricks(9,477);}
-		if (numberOfBricks == 16) {newbrick = new Bricks(49,477);}
-		if (numberOfBricks == 17) {newbrick = new Bricks(89,477);}
-		if (numberOfBricks == 18) {newbrick = new Bricks(129,477);}
-		if (numberOfBricks == 19) {newbrick = new Bricks(169,477);}
-		if (numberOfBricks == 20) {newbrick = new Bricks(9,454);}
-		if (numberOfBricks == 21) {newbrick = new Bricks(49,454);}
-		if (numberOfBricks == 22) {newbrick = new Bricks(89,454);}
-		if (numberOfBricks == 23) {newbrick = new Bricks(129,454);}
-		if (numberOfBricks == 24) {newbrick = new Bricks(169,454);}
-		if (numberOfBricks == 25) {newbrick = new Bricks(9,431);}
-		if (numberOfBricks == 26) {newbrick = new Bricks(49,431);}
-		if (numberOfBricks == 27) {newbrick = new Bricks(89,431);}
-		if (numberOfBricks == 28) {newbrick = new Bricks(129,431);}
-		if (numberOfBricks == 29) {newbrick = new Bricks(169,431);}
-		if (numberOfBricks == 30) {newbrick = new Bricks(9,408);}
-		if (numberOfBricks == 31) {newbrick = new Bricks(49,408);}
-		if (numberOfBricks == 32) {newbrick = new Bricks(89,408);}
-		if (numberOfBricks == 33) {newbrick = new Bricks(129,408);}
-		if (numberOfBricks == 34) {newbrick = new Bricks(169,408);}
-		if (numberOfBricks == 35) {newbrick = new Bricks(9,385);}
-		if (numberOfBricks == 36) {newbrick = new Bricks(49,385);}
-		if (numberOfBricks == 37) {newbrick = new Bricks(89,385);}
-		if (numberOfBricks == 38) {newbrick = new Bricks(129,385);}
-		if (numberOfBricks == 39) {newbrick = new Bricks(169,385);}
-		if (numberOfBricks == 40) {newbrick = new Bricks(9,362);}
-		if (numberOfBricks == 41) {newbrick = new Bricks(49,362);}
-		if (numberOfBricks == 42) {newbrick = new Bricks(89,362);}
-		if (numberOfBricks == 43) {newbrick = new Bricks(129,362);}
-		if (numberOfBricks == 44) {newbrick = new Bricks(169,362);}
-	
-		//if (numberOfBricks == 45) {newbrick = new Bricks(49,546);}
-			
+function addBrick(playerObj){
+	var brickX, brickY;
+	// if current width is longer than foundation, start new row
+	if (playerObj.numBricksRow >= gameVars.bricksPerRow) {
+		brickX = playerObj.firstBrickX;
+		brickY = playerObj.lastBrickY - gameVars.brickHeight;
+		playerObj.numBricksRow = 0; // restart row counter
 		
-		//newbrick = new Bricks(Xa,Ya);
-		Bricks_player_array.push(newbrick);
-		numberOfBricks = numberOfBricks + 1;
-
 	}
-	else{}
-	//this will display information on the screen
-	document.getElementById("player_height").innerHTML = numberOfBricks;
-}
-
-/********************/
-/* MINER FUNCTIONS */
-/********************/
-//https://github.com/search?q=Gold+Miner+-+HTML5+Game&type=Code&utf8=%E2%9C%93
-//I am making an assuption that miner costs 100 units 
-
-function buyBuilder(){
-	if (playerVars.money - gameVars.builderCost < 0) {
-		// placeholder error, fix to display error in game
-		alert("Not enough money!");
-		
-		//pause game
-		//grey out game and display "not enough money"
-		//unpause game
-	}
+	// otherwise, calculate next brick position
 	else {
-		// update money and miner count
-		playerVars.money = playerVars.money - gameVars.builderCost;
-		playerVars.numBuilders = playerVars.numBuilders + 1;
-		// display builder on canvas
-		
+		brickX = playerObj.lastBrickX + gameVars.brickWidth;
+		brickY = playerObj.lastBrickY;
 	}
-
-	// display updated player stats
-	document.getElementById("builder").innerHTML = playerVars.numBuilders;
-	document.getElementById("money").innerHTML = playerVars.money;
+	
+	// create brick
+	var newBrick = new createjs.Sprite(spriteSheet, "brick");
+	newBrick.x = brickX;
+	newBrick.y = brickY;
+	newBrick.scaleX = 0.5;
+	newBrick.scaleY = 0.25;
+	stage.addChild(newBrick);	
+	
+	// update player vars
+	playerObj.lastBrickX = brickX;
+	playerObj.lastBrickY = brickY;
+	playerObj.numBricksRow = playerObj.numBricksRow + 1;
 }
-
 
 var stage;
 var queue;
@@ -324,41 +250,6 @@ function init() {
 		stage.addChild(enemyBuilder);
 		playerVars.builders.push(enemyBuilder);
 		
-		// create draggable sprite
-/*		var sprite = new createjs.Sprite(spriteSheet, "playerMine");
-		sprite.x = 0;
-		sprite.y = 0;
-		sprite.scaleX = 0.5;
-		sprite.scaleY = 0.25;
-		//sprite.paused = true;
-		stage.addChild(sprite);
-		sprite.addEventListener('mousedown',function(e) {
-			stage.addEventListener('stagemousemove',function(e) {
-				sprite.x = stage.mouseX;
-				sprite.y = stage.mouseY;
-			});
-			
-			stage.addEventListener('stagemouseup',function(e) {
-				e.target.removeAllEventListeners();
-			});
-		});*/
-		
-		// create sprite at player spawn location
-/*		var spawn = new createjs.Sprite(spriteSheet, "playerBuild");
-		spawn.x = 90;
-		spawn.y = 25;
-		spawn.scaleX = 0.5;
-		spawn.scaleY = 0.25;
-		stage.addChild(spawn);
-		
-		// create sprite at enemy spawn location
-		var enemySpawn = new createjs.Sprite(spriteSheet, "enemyBuild");
-		enemySpawn.x = 185;
-		enemySpawn.y = 25;
-		enemySpawn.scaleX = 0.5;
-		enemySpawn.scaleY = 0.25;
-		stage.addChild(enemySpawn); */
-		
 		// create brick at player foundation
 		var playerBrick = new createjs.Sprite(spriteSheet, "brick");
 		playerBrick.x = 80;
@@ -387,6 +278,7 @@ function init() {
 /*	function loadComplete() {
 		createjs.Sound.play("endgame");
 	}*/
+	// buy a miner
 	var buyMiner = document.getElementById("miner");
 	buyMiner.onclick = function() {
 		if (playerVars.money - gameVars.minerCost < 0) {
@@ -405,18 +297,59 @@ function init() {
 			
 			// display miner on canvas
 			var miner = new createjs.Sprite(spriteSheet, "playerMine");
-			var mineArea = document.getElementById("player-main");
-			mineArea.addEventListener('click', function() {
-				miner.x = stage.mouseX;
-				miner.y = stage.mouseY;
-			});
+			miner.x = playerVars.spawnX;
+			miner.y = playerVars.spawnY;
 			miner.scaleX = 0.5;
 			miner.scaleY = 0.25;
+			miner.paused = true;
 			stage.addChild(miner);
+/*			var placeArea = document.getElementById("player-main");
+			placeArea.addEventListener('click', function() {
+				miner.x = stage.mouseX;
+				miner.y = stage.mouseY;
+				miner.paused = false;
+			}); */
 		}
 
 		// display updated player stats
 		document.getElementById("miners").innerHTML = playerVars.numMiners;
+		document.getElementById("money").innerHTML = playerVars.money;
+	}
+	// buy a builder
+	var buyBuilder = document.getElementById("builder");
+		buyBuilder.onclick = function() {
+			if (playerVars.money - gameVars.builderCost < 0) {
+				// placeholder error, fix to display error in game
+				alert("Not enough money!");
+				
+				//pause game
+				//grey out game and display "not enough money"
+				//unpause game
+			}
+			else {
+				// update money and builder count
+				playerVars.money = playerVars.money - gameVars.builderCost;
+				playerVars.numBuilders = playerVars.numBuilders + 1;
+				playerVars.builders.push();
+				
+				// display builder on canvas
+				var builder = new createjs.Sprite(spriteSheet, "playerBuildLeft");
+				builder.x = playerVars.spawnX;
+				builder.y = playerVars.spawnY;
+				builder.scaleX = 0.5;
+				builder.scaleY = 0.25;
+				builder.paused = true;
+				stage.addChild(builder);
+/*				var placeArea = document.getElementById("player-main");
+				placeArea.addEventListener('click', function() {
+					builder.x = stage.mouseX;
+					builder.y = stage.mouseY;
+					builder.paused = false;
+				}); */
+			}
+
+		// display updated player stats
+		document.getElementById("builders").innerHTML = playerVars.numBuilders;
 		document.getElementById("money").innerHTML = playerVars.money;
 	}
 	var time = 0;
@@ -425,12 +358,27 @@ function init() {
 		createjs.Ticker.addEventListener("tick", function(e) {
 			stage.update();
 			// increment money every second
-			if (time % 60 == 0) {
+			if (time % 60 == 0 && time != 0) {
 				playerVars.money = playerVars.money + playerVars.numMiners * 1;
 				enemyVars.money = enemyVars.money + enemyVars.numMiners * 1;
 			}
-			document.getElementById("miners").innerHTML = playerVars.numMiners;
+			
+			// increment bricks every minute
+			if (time % 3600 == 0 && time != 0) {
+				playerVars.bricks = playerVars.bricks + playerVars.numBuilders * 1;
+				for (i = 0; i < playerVars.numBuilders; i++) {
+					addBrick(playerVars);
+				}
+				enemyVars.bricks = enemyVars.bricks + enemyVars.numBuilders * 1;
+				for (i = 0; i < enemyVars.numBuilders; i++) {
+					addBrick(enemyVars);
+				}
+			}
+			document.getElementById("player_bricks").innerHTML = playerVars.bricks;
+			document.getElementById("enemy_bricks").innerHTML = enemyVars.bricks;
 			document.getElementById("money").innerHTML = playerVars.money;
+			document.getElementById("miners").innerHTML = playerVars.numMiners;
+			document.getElementById("builders").innerHTML = playerVars.numBuilders;
 			time++; // increase time counter
 		});
 	}

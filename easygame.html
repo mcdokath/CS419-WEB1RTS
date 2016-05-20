@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<title>Build or Die: Easy Mode</title>
+		<title>Tower Challenge: Easy Mode</title>
 		<link href="css/easy.css" rel="stylesheet" type="text/css" />
 		<!--[if lt IE 9]>
 		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js</script>
@@ -19,25 +19,26 @@
 	</head>
 	<body onload="init()">
 		<div class="container">
-		  <h1 id="game-title">Build or Die: Easy Mode</h1>
+		  <h1 id="game-title">Tower Challenge: Easy Mode</h1>
 		  <div id="game-container">
 			  <div id="player-sidebar">
 				<h2>Player Dashboard</h2>
 				<hr>
-				<p><strong style="font-size:large;">Player Height:<span id="player_height"> 1 </span> <!-- Code for Tower Height --></strong></p>
-				<p><strong style="font-size:large;">Enemy Height: <!-- Code for Tower Height --></strong></p>
-				<p><strong style="font-size:large;">Diamond: <span id="money"></span><!-- Code for Available Money --></strong></p>
+				<p><strong style="font-size:large;">Player Bricks: <span id="player_bricks"></span><!-- Code for Tower Height --></strong></p>
+				<p><strong style="font-size:large;">Enemy Bricks: <span id="enemy_bricks"></span><!-- Code for Tower Height --></strong></p>
+				<p><strong style="font-size:large;">Diamond (D): <span id="money"></span><!-- Code for Available Money --></strong></p>
 				<p><strong style="font-size:large;">Miners: <span id="miners"></span></strong></p>
-				<p><strong style="font-size:large;">Builders: <span id="builders">1</span></strong></p>
+				<p><strong style="font-size:large;">Builders: <span id="builders"></span></strong></p>
 				<p><strong style="font-size:large;">Buy</strong></p>
 		
 				<div class="buy-container">
 					<button id="miner">Miner</button>
-					
+					<p>100 D</p>
 					<img src="images/robotminer.png">
 				</div>
 				<div class="buy-container">
 					<button id="builder">Builder</button>
+					<p>200 D</p>
 					<img src="images/robotbuilder.png">
 				</div>
 			  </div>

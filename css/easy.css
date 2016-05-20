@@ -111,7 +111,7 @@ footer {
 }
 
 .buy-container {
-	display:block;
+	display:inline-block;
 	width:84px;
 	margin:10px auto 10px auto;
 	padding-top:10px;
@@ -124,6 +124,12 @@ footer {
 	font-size:large;
 	padding:10px;
 	margin:auto auto 10px auto;
+}
+
+.buy-container>p {
+	font-weight:bold;
+	font-size:large;
+	color:red;
 }
 
 .buy-container>image {
