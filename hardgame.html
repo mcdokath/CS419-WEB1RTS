@@ -2,9 +2,12 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<title>Build or Die: Hard Mode</title>
+		<title>Tower Challenge: Hard Mode</title>
 		<link href="css/hard.css" rel="stylesheet" type="text/css" />
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+		        <script src='https://code.createjs.com/easeljs-0.8.1.min.js'></script>
+	        <script src='https://code.createjs.com/preloadjs-0.6.1.min.js'></script>
+	        <script src='https://code.createjs.com/tweenjs-0.6.2.min.js'></script>
 		<script type="text/javascript" src="js/script.js"></script>
 		 <link rel="stylesheet" href="style.css">
 		<!--[if lt IE 9]>
@@ -13,7 +16,7 @@
 	</head>
 	<body>
 		<div class="container">
-		  <h1 id="game-title">Build or Die: Hard Mode</h1>
+		  <h1 id="game-title">Tower Challenge: Hard Mode</h1>
 		  <div id="game-container">
 			  <div id="player-sidebar">
 				<h2>Player Dashboard</h2>
@@ -41,16 +44,15 @@
 			  
 			  
 			  <div id="player-main">
-				<canvas id="canvasBg" width="800" height="600"></canvas>
+			<canvas id="canvasBg" width="800" height="600"></canvas>
 
-			        <div id="overlapping">
-			            <canvas id="canvasEntities" width="800" height="600"></canvas>
-			        </div>
+        <div id="overlapping">
+            <canvas id="canvasEntities" width="800" height="600"></canvas>
+        </div>
 
-				<script src="js/hard.js"></script>	
-				<button id="save-button" onclick="saveGame()">Save Game</button> 
+			<script src="js/hard.js"></script>	
 			  </div>
-
+			  
 			  
 			</div>
 		</div>
