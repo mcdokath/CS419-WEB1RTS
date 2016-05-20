@@ -405,8 +405,8 @@ function init() {
 			
 			// display miner on canvas
 			var miner = new createjs.Sprite(spriteSheet, "playerMine");
-			alert("Click in your mine to place your miner!");
-			stage.addEventListener('click', function() {
+			var mineArea = document.getElementById("player-main");
+			mineArea.addEventListener('click', function() {
 				miner.x = stage.mouseX;
 				miner.y = stage.mouseY;
 			});
