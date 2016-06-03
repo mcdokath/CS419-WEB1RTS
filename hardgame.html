@@ -5,10 +5,9 @@
 		<title>Tower Challenge: Hard Mode</title>
 		<link href="css/hard.css" rel="stylesheet" type="text/css" />
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-		        <script src='https://code.createjs.com/easeljs-0.8.1.min.js'></script>
-	        <script src='https://code.createjs.com/preloadjs-0.6.1.min.js'></script>
-	        <script src='https://code.createjs.com/tweenjs-0.6.2.min.js'></script>
+		<script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
 		<script type="text/javascript" src="js/script.js"></script>
+		 <link rel="stylesheet" href="style.css">
 		<!--[if lt IE 9]>
 		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js</script>
 		<![endif]-->
@@ -20,28 +19,41 @@
 			  <div id="player-sidebar">
 				<h2>Player Dashboard</h2>
 				<hr>
-				<button class="gamefuncs">Save</button>
-				<a href="index.html"><button class="gamefuncs">Quit</button></a>
-				<hr>
-				<p><strong style="font-size:large;">Player Height:<span id="player_height"> 1 </span> <!-- Code for Tower Height --></strong></p>
-				<p><strong style="font-size:large;">Enemy Height: <!-- Code for Tower Height --></strong></p>
-				<p><strong style="font-size:large;">Diamond: <span id="money">20</span><!-- Code for Available Money --></strong></p>
-				<p><strong style="font-size:large;">Miners: <span id="miner">1</span></strong></p>
-				<p><strong style="font-size:large;">Builders: <span id="builder">1</span></strong></p>
-				<p><strong style="font-size:large;">Buy</strong></p>
+				<p><strong style="font-size:large;">Player Building Height:<span id="player_height"> 1 </span> <!-- Code for Tower Height --></strong></p>
+				<p><strong style="font-size:large;">Player Diamonds: <span id="money">400</span><!-- Code for Available Money --></strong></p>
+				<p><strong style="font-size:large;">Miners: <span id="miner">1</span> Builders: <span id="builder">1</span> Destroyer: <span id="destructor">1</span></strong></p>
+		<br>
+			<hr>
+			<hr>
+				<p><strong style="font-size:large;">ACTIVATE ANOTHER UNIT </strong></p>
 				<div class="buy-container">
 				
 					<button id="miner" onclick="buyMiner(1)">Miner</button>
+					<p>100 D</p>
 					<img src="images/robotminer.png">
 				</div>
 				<div class="buy-container">
 					<button id="builder" onclick="buyBuilder(1)">Builder</button>
+					<p>200 D</p>
 					<img src="images/robotbuilder.png ">
 				</div>
 				<div class="buy-container">
-					<button id="destroyer">Destroyer</button>
+					<button id="destructor" onclick="buyDestructor(1)">Destroyer</button>
+					<p>200 D</p>
+					
 					<img src="images/robotdestroyer.png">
 				</div>
+				<br>
+					<hr>			
+				<hr>
+				
+				<h2>Enemy Dashboard</h2>
+				<hr>
+				<p><strong style="font-size:large;">Enemy Building Height:<span id="enemy_height"> 1 </span> <!-- Code for Tower Height --></strong></p>
+				<p><strong style="font-size:large;">Enemy Diamonds: <span id="moneyEnemy">400</span><!-- Code for Available Money --></strong></p>
+				<p><strong style="font-size:large;">Miners: <span id="minerEnemy">1</span> Builders: <span id="builderEnemy">1</span> Destroyer: <span id="destructorEnemy">1</span></strong></p>
+					
+					
 			  </div>
 			  
 			  
@@ -55,8 +67,17 @@
 			<script src="js/hard.js"></script>	
 			  </div>
 			  
+		
+			  
+			  
+			  
+			  
+			  <button onclick="window.location.href='easygame.html'">Play Easy Mode Game [New Game]</button> <button onclick="window.location.href='hardgame.html'">Play Hard Mode Game [New Game]</button>
+			  
+			  
 			  
 			</div>
+			
 		</div>
 	</body>
 </html>
