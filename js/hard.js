@@ -3128,28 +3128,28 @@ function GameIsOver(){
 		gameOverWon();
 	}
 		//player does not have money, builders or miners, while the AI has miners and/or builders - THUS AI WILL WIN
-	else if(money <100 && numberOfMiners2 == 0 && numberOfBuilders2 == 0 && moneyEnemy >100   && numberOfBuildersEnemy2 > 0 && numberOfMinersEnemy2 == 0 && numberOfBricks_for_destruction < numberOfBricksEnemy_for_destruction){
+	else if(money <100 && numberOfMiners2 == 0 && numberOfBuilders2 == 0 && moneyEnemy >0   && numberOfBuildersEnemy2 > 0 && numberOfMinersEnemy2 == 0 && numberOfBricks_for_destruction < numberOfBricksEnemy_for_destruction){
 		//you lost
 		gameOverLost();
 	}
-	else if(money <100 && numberOfMiners2 == 0 && numberOfBuilders2 == 0 && moneyEnemy > 100   && numberOfBuildersEnemy2 == 0 && numberOfMinersEnemy2 > 0 && numberOfBricks_for_destruction < numberOfBricksEnemy_for_destruction){
+	else if(money <100 && numberOfMiners2 == 0 && numberOfBuilders2 == 0 && moneyEnemy > 0   && numberOfBuildersEnemy2 == 0 && numberOfMinersEnemy2 > 0 && numberOfBricks_for_destruction < numberOfBricksEnemy_for_destruction){
 		//you lost
 		gameOverLost();
 	}
-	else if(money <100 && numberOfMiners2 == 0 && numberOfBuilders2 == 0 && moneyEnemy > 100   && numberOfBuildersEnemy2 > 0 && numberOfMinersEnemy2 > 0 && numberOfBricks_for_destruction < numberOfBricksEnemy_for_destruction){
+	else if(money <100 && numberOfMiners2 == 0 && numberOfBuilders2 == 0 && moneyEnemy > 0   && numberOfBuildersEnemy2 > 0 && numberOfMinersEnemy2 > 0 && numberOfBricks_for_destruction < numberOfBricksEnemy_for_destruction){
 		//you lost
 		gameOverLost();
 	}
 		//AI does not have money, builders or miners, while the player has miners and/or builders - THUS player will win
-	else if(money >100 && numberOfMiners2 > 0 && numberOfBuilders2 == 0 && moneyEnemy < 100   && numberOfBuildersEnemy2 == 0 && numberOfMinersEnemy2 == 0 && numberOfBricks_for_destruction > numberOfBricksEnemy_for_destruction){
+	else if(money >0 && numberOfMiners2 > 0 && numberOfBuilders2 == 0 && moneyEnemy < 100   && numberOfBuildersEnemy2 == 0 && numberOfMinersEnemy2 == 0 && numberOfBricks_for_destruction > numberOfBricksEnemy_for_destruction){
 		//AI lost
 		gameOverWon();
 	}
-	else if(money >100 && numberOfMiners2 == 0 && numberOfBuilders2 > 0 && moneyEnemy < 100   && numberOfBuildersEnemy2 == 0 && numberOfMinersEnemy2 == 0 && numberOfBricks_for_destruction > numberOfBricksEnemy_for_destruction){
+	else if(money >0 && numberOfMiners2 == 0 && numberOfBuilders2 > 0 && moneyEnemy < 100   && numberOfBuildersEnemy2 == 0 && numberOfMinersEnemy2 == 0 && numberOfBricks_for_destruction > numberOfBricksEnemy_for_destruction){
 		//AI lost
 		gameOverWon();
 	}
-	else if(money >100 && numberOfMiners2 > 0 && numberOfBuilders2 > 0 && moneyEnemy < 100   && numberOfBuildersEnemy2 == 0 && numberOfMinersEnemy2 == 0  && numberOfBricks_for_destruction > numberOfBricksEnemy_for_destruction){
+	else if(money >0 && numberOfMiners2 > 0 && numberOfBuilders2 > 0 && moneyEnemy < 100   && numberOfBuildersEnemy2 == 0 && numberOfMinersEnemy2 == 0  && numberOfBricks_for_destruction > numberOfBricksEnemy_for_destruction){
 		//AI lost
 		gameOverWon();
 	}
