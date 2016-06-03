@@ -32,18 +32,6 @@ button {
 	text-decoration:none;
 }
 
-canvas {
-	display:block;
-}
-
-#canvasBg {
-    background: #ffffff;
-}
-
-#overlapping canvas {
-    margin: -600px 0 0;
-}
-
 button:hover {
 	background: #6034d9;
 	background-image: -webkit-linear-gradient(top, #6034d9, #737cff);
@@ -90,6 +78,19 @@ footer {
 	background: -moz-radial-gradient(rgba(255,255,255,0.9),#33CC00); /* For Firefox 3.6 to 15 */
 	background: radial-gradient(rgba(255,255,255,0.9),#33CC00); /* Standard syntax */
 }
+#game-title2 {
+	padding:10px;
+	border:2px solid #4B0082;
+	border-radius:50px;
+	width:5%;
+	margin-left:auto;
+	margin-right:auto;
+	background: #33CC00; /* For browsers that do not support gradients */
+	background: -webkit-radial-gradient(rgba(255,255,255,0.9),#33CC00); /* For Safari 5.1 to 6.0 */
+	background: -o-radial-gradient(rgba(255,255,255,0.9),#33CC00); /* For Opera 11.1 to 12.0 */
+	background: -moz-radial-gradient(rgba(255,255,255,0.9),#33CC00); /* For Firefox 3.6 to 15 */
+	background: radial-gradient(rgba(255,255,255,0.9),#33CC00); /* Standard syntax */
+}
 
 #game-container {
 	display:block;
@@ -102,12 +103,12 @@ footer {
 
 #player-sidebar {
 	display:block;
-	min-width:280px;
-	max-width:300px;
+	min-width:350px;
+	max-width:350px;
 	height:768px;
 	float:left;
 	clear:left;
-	margin-top:10px;
+	margin-top:0px;
 	margin-bottom:10px;
 	margin-left:5px;
 	background-color:#fff;
@@ -117,9 +118,8 @@ footer {
 }
 
 .buy-container {
-	display:block;
-	min-width:84px;
-	max-width:125px;
+	display:inline-block;
+	width:84px;
 	margin:10px auto 10px auto;
 	padding-top:10px;
 	padding-bottom:10px;
