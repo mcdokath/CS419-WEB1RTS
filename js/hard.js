@@ -3003,6 +3003,8 @@ function gameOverLost() {
 	ctxBg.fillText("Game Over. You lost!", canvasWidth/2, canvasHeight/2 -150);
 	ctxBg.fillText("Your building has "+numberOfBricks_for_destruction+" bricks! ", canvasWidth/2, canvasHeight/2 -100);
 	ctxBg.fillText("Your enemy has "+numberOfBricksEnemy+" bricks!", canvasWidth/2, canvasHeight/2 -50);
+	ctxBg.fillText("AI either depleted your resources or ", canvasWidth/2, canvasHeight/2);
+	ctxBg.fillText("has a taller building.", canvasWidth/2, canvasHeight/2  +50);
 	//ctxBg.fillText("Game Over. You lost - Your building has "+numberOfBricks_for_destruction+" bricks! Your enemy has "+numberOfBricksEnemy+" bricks!", canvasWidth/2, canvasHeight/2 -100);
 	
 	// Stop the Animation
@@ -3031,6 +3033,9 @@ function gameOverWon() {
 	ctxBg.fillText("Game Over. You Won!", canvasWidth/2, canvasHeight/2 -150);
 	ctxBg.fillText("Your building has "+numberOfBricks_for_destruction+" bricks! ", canvasWidth/2, canvasHeight/2 -100);
 	ctxBg.fillText("Your enemy has "+numberOfBricksEnemy+" bricks!", canvasWidth/2, canvasHeight/2 -50);
+	ctxBg.fillText("You either depleted enemies ", canvasWidth/2, canvasHeight/2);
+	ctxBg.fillText("resources or have a taller building.", canvasWidth/2, canvasHeight/2+50);
+	//ctxBg.fillText("Your enemy has "+numberOfBricksEnemy+" bricks!", canvasWidth/2, canvasHeight/2 -50);
 	// Stop the Animation
 	cancelRequestAnimFrame(animation);
 	cancelRequestAnimFrame(animation2);
@@ -3057,6 +3062,7 @@ function gameOverEven() {
 	ctxBg.fillText("Game Over. Its a tie!", canvasWidth/2, canvasHeight/2 -150);
 	ctxBg.fillText("Your building has "+numberOfBricks_for_destruction+" bricks! ", canvasWidth/2, canvasHeight/2 -100);
 	ctxBg.fillText("Your enemy has "+numberOfBricksEnemy+" bricks!", canvasWidth/2, canvasHeight/2 -50);
+	
 	// Stop the Animation
 	cancelRequestAnimFrame(animation);
 	cancelRequestAnimFrame(animation2);
@@ -3150,6 +3156,10 @@ function GameIsOver(){
 		gameOverWon();
 	}
 	else if(money >0 && numberOfMiners2 > 0 && numberOfBuilders2 > 0 && moneyEnemy < 100   && numberOfBuildersEnemy2 == 0 && numberOfMinersEnemy2 == 0  && numberOfBricks_for_destruction > numberOfBricksEnemy_for_destruction){
+		//AI lost
+		gameOverWon();
+	}
+	else if(money >0 && numberOfMiners2 > 0 && numberOfBuilders2 > 0 && moneyEnemy < 200   && numberOfBuildersEnemy2 == 0 && numberOfMinersEnemy2 == 0  && numberOfBricks_for_destruction > numberOfBricksEnemy_for_destruction){
 		//AI lost
 		gameOverWon();
 	}
