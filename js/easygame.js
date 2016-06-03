@@ -4,7 +4,8 @@ var gameVars = {
 	builderCost: 200,
 	brickWidth: 7,
 	brickHeight: 2,
-	bricksPerRow: 6
+	bricksPerRow: 6,
+	winningBrickCount: 180
 };
 
 // player variables
@@ -14,7 +15,7 @@ var playerVars = {
 	lastBrickX: 80, // X coordinate of last brick
 	lastBrickY: 136, // Y coordinate of last brick
 	numBricksRow: 1, // number of bricks in current row
-	money: 200,
+	money: 20,
 	numMiners: 1,
 	numBuilders: 1,
 	//mine: new Mine(),
@@ -83,43 +84,13 @@ function init() {
 	]);
 	function loadComplete() {
 		setupStage();
-	//	builderLoaderBar();
-	//	startLoad();
 		buildSprites();
 		startGame();
 	}
 	function setupStage() {
 		stage = new createjs.Stage(document.getElementById('canvas'));
-	}
-	function builderLoaderBar() {
-		loaderBar = new createjs.Shape();
-		loaderBar.x = loaderBar.y = 100;
-		loaderBar.graphics.setStrokeStyle(2);
-		loaderBar.graphics.beginStroke("#000");
-		loaderBar.graphics.drawRect(0,0,LOADER_WIDTH,40);
-		stage.addChild(loaderBar);
-	}
-	function startLoad() {
-		loadInterval = setInterval(updateLoad, 50);
-	}
-	function updateLoad() {
-		percentLoaded += .005;
-		updateLoaderBar();
-		if (percentLoaded >= 1) {
-			clearInterval(loadInterval);
-			stage.removeChild(loaderBar);
-		/*	loadComplete(); */
-		}
-	}
-	function updateLoaderBar() {
-		loaderBar.graphics.clear();
-		loaderBar.graphics.beginFill('#00ff00');
-		loaderBar.graphics.drawRect(0, 0, LOADER_WIDTH * percentLoaded, 40);
-		loaderBar.graphics.endFill();
-		loaderBar.graphics.setStrokeStyle(2);
-		loaderBar.graphics.beginStroke("#000");
-		loaderBar.graphics.drawRect(0, 0, LOADER_WIDTH, 40);
-		loaderBar.graphics.endStroke();
+		// display winning brick number
+		document.getElementById("winning_bricks").innerHTML = gameVars.winningBrickCount;
 	}
 	function buildSprites() {
 		spriteSheet = new createjs.SpriteSheet({
@@ -265,19 +236,9 @@ function init() {
 		enemyBrick.scaleX = 0.5;
 		enemyBrick.scaleY = 0.25;
 		stage.addChild(enemyBrick);
-		
-		// create text
-/*		var txt = new createjs.Text("Game Over", "20px Arial", "#ff7700");
-		txt.textBaseline = "middle";
-		txt.textAlign = "center";
-		txt.x = stage.canvas.width / 2;
-		txt.y = stage.canvas.height / 2;
-		stage.addChild(txt);
-		stage.update(); */
+	
 	}
-/*	function loadComplete() {
-		createjs.Sound.play("endgame");
-	}*/
+	
 	// buy a miner
 	var buyMiner = document.getElementById("miner");
 	buyMiner.onclick = function() {
@@ -315,6 +276,7 @@ function init() {
 		document.getElementById("miners").innerHTML = playerVars.numMiners;
 		document.getElementById("money").innerHTML = playerVars.money;
 	}
+
 	// buy a builder
 	var buyBuilder = document.getElementById("builder");
 		buyBuilder.onclick = function() {
@@ -352,18 +314,100 @@ function init() {
 		document.getElementById("builders").innerHTML = playerVars.numBuilders;
 		document.getElementById("money").innerHTML = playerVars.money;
 	}
+	
+	// AI functions
+	function AIBuyMiner() {
+		if (enemyVars.money - gameVars.minerCost < 0) {
+			// placeholder error, fix to display error in game
+			alert("Not enough money!");
+			
+			//pause game
+			//grey out game and display "not enough money"
+			//unpause game
+		}
+		else {
+			// update money and miner count
+			enemyVars.money = enemyVars.money - gameVars.minerCost;
+			enemyVars.numMiners = enemyVars.numMiners + 1;
+			enemyVars.miners.push();
+			
+			// display miner on canvas
+			var miner = new createjs.Sprite(spriteSheet, "enemyMine");
+			miner.x = enemyVars.spawnX;
+			miner.y = enemyVars.spawnY;
+			miner.scaleX = 0.5;
+			miner.scaleY = 0.25;
+			miner.paused = false;
+			stage.addChild(miner);
+/*			var placeArea = document.getElementById("player-main");
+			placeArea.addEventListener('click', function() {
+				miner.x = stage.mouseX;
+				miner.y = stage.mouseY;
+				miner.paused = false;
+			}); */
+		}		
+	}
+	
+	function AIBuyBuilder() {
+		if (enemyVars.money - gameVars.builderCost < 0) {
+			// placeholder error, fix to display error in game
+			alert("Not enough money!");
+				
+			//pause game
+			//grey out game and display "not enough money"
+			//unpause game
+		}
+		else {
+			// update money and builder count
+			enemyVars.money = enemyVars.money - gameVars.builderCost;
+			enemyVars.numBuilders = enemyVars.numBuilders + 1;
+			enemyVars.builders.push();
+			
+			// display builder on canvas
+			var builder = new createjs.Sprite(spriteSheet, "enemyBuildLeft");
+			builder.x = enemyVars.spawnX;
+			builder.y = enemyVars.spawnY;
+			builder.scaleX = 0.5;
+			builder.scaleY = 0.25;
+			builder.paused = false;
+			stage.addChild(builder);
+/*			var placeArea = document.getElementById("player-main");
+			placeArea.addEventListener('click', function() {
+				builder.x = stage.mouseX;
+				builder.y = stage.mouseY;
+				builder.paused = false;
+			}); */
+		}		
+	}
+	
+	// main game script
 	var time = 0;
 	function startGame() {
 		createjs.Ticker.setFPS(60);
 		createjs.Ticker.addEventListener("tick", function(e) {
 			stage.update();
+			// if player or AI has reached winningBrickCount, end game
+			if (playerVars.bricks == gameVars.winningBrickCount || enemyVars.bricks == gameVars.winningBrickCount) {
+				// if both players are at the winning count, it's a tie
+				if (playerVars.bricks == enemyVars.bricks) {
+					endGame(2);
+				}
+				// if player is at the winning count
+				else if (playerVars.brick == gameVars.winningBrickCount) {
+					endGame(1);
+				}
+				// if enemy is at the winning count
+				else {
+					endGame(0);
+				}
+			}
 			// increment money every second
 			if (time % 60 == 0 && time != 0) {
 				playerVars.money = playerVars.money + playerVars.numMiners * 1;
 				enemyVars.money = enemyVars.money + enemyVars.numMiners * 1;
 			}
 			
-			// increment bricks every minute
+			// increment bricks every minute 3600
 			if (time % 3600 == 0 && time != 0) {
 				playerVars.bricks = playerVars.bricks + playerVars.numBuilders * 1;
 				for (i = 0; i < playerVars.numBuilders; i++) {
@@ -374,6 +418,26 @@ function init() {
 					addBrick(enemyVars);
 				}
 			}
+				
+			// AI actions
+			// buying a builder or miner is a random event
+			if (time % 200 == 0 && time != 0) {
+				action = Math.floor((Math.random() * 100) + 1);
+				// if number between 1-33, buy a miner
+				if (action >= 1 && action <= 33) {
+					if (enemyVars.money >= gameVars.minerCost) {
+						AIBuyMiner();
+					}
+				}
+				// if number between 34-66, buy a builder
+				else if (action >= 34 && action <= 66) {
+					if (enemyVars.money >= gameVars.builderCost) {
+						AIBuyBuilder();
+					}
+				}
+				// if number between 67-100, buy nothing
+			}
+			// update displayed values
 			document.getElementById("player_bricks").innerHTML = playerVars.bricks;
 			document.getElementById("enemy_bricks").innerHTML = enemyVars.bricks;
 			document.getElementById("money").innerHTML = playerVars.money;
@@ -381,5 +445,35 @@ function init() {
 			document.getElementById("builders").innerHTML = playerVars.numBuilders;
 			time++; // increase time counter
 		});
+	}
+	
+	function endGame(winner) {
+		// remove event listener
+		createjs.Ticker.removeEventListener("tick");
+		
+		// 0 = enemy wins
+		if (winner == 0) {
+			// write to dialog
+			document.getElementById("winner-name").innerHTML = "ENEMY WINS";
+			
+		}
+		// 1 = player wins
+		else if (winner == 1) {
+			// write to dialog
+			document.getElementById("winner-name").innerHTML = "YOU WIN";
+			
+		}
+		// 2 = tie
+		else {
+			// write to dialog
+			document.getElementById("winner-name").innerHTML = "IT'S A TIE";			
+		}
+		
+		// display dialog
+		document.getElementById("game-container").style.display="none";
+		document.getElementById("endgame-container").style.display="block";
+
+		// play ending music
+		createjs.Sound.play("endgame");
 	}
 }

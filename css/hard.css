@@ -32,6 +32,18 @@ button {
 	text-decoration:none;
 }
 
+canvas {
+	display:block;
+}
+
+#canvasBg {
+    background: #ffffff;
+}
+
+#overlapping canvas {
+    margin: -600px 0 0;
+}
+
 button:hover {
 	background: #6034d9;
 	background-image: -webkit-linear-gradient(top, #6034d9, #737cff);

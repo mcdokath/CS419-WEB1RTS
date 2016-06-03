@@ -151,3 +151,12 @@ button:hover {
 	margin-left:auto;
 	margin-right:auto;
 }
+
+#endgame-container {
+	display:none;
+}
+
+#endgame-container button {
+	margin-left:auto;
+	margin-right:auto;
+}

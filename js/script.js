@@ -9,30 +9,3 @@ $(document).ready(function(){
 		$("#hard-game").css("display","block");
 	});
 });
-
-/* LOAD GAME is pressed */
-
-
-
-
-
-/* --- old code --- */
-/* place mines */
-
-
-/* place initial miner */
-
-/* buy miner */
-/* basic */
-/* advanced */
-/* expert */
-
-/* buy builder */
-/* basic */
-/* advanced */
-/* expert */
-
-/* buy destroyer */
-/* basic */
-/* advanced */
-/* expert */

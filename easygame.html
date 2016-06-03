@@ -24,8 +24,7 @@
 			  <div id="player-sidebar">
 				<h2>Player Dashboard</h2>
 				<hr>
-				<button class="gamefuncs">Save</button>
-				<a href="index.html"><button class="gamefuncs">Quit</button></a>
+				<p><strong style="font-size:large;">Bricks Needed to Win: <span id="winning_bricks"></span></strong></p>
 				<hr>
 				<p><strong style="font-size:large;">Player Bricks: <span id="player_bricks"></span><!-- Code for Tower Height --></strong></p>
 				<p><strong style="font-size:large;">Enemy Bricks: <span id="enemy_bricks"></span><!-- Code for Tower Height --></strong></p>
@@ -44,16 +43,17 @@
 					<p>200 D</p>
 					<img src="images/robotbuilder.png">
 				</div>
+				<hr>
+				 <a href="index.html"><button class="gamefuncs">Quit</button></a>
 			  </div>
 			  <div id="player-main">
 				<canvas id="canvas"></canvas>
-					<script>
-					const LOADER_WIDTH = 400;
-					var stage, loaderBar, loadInterval;
-					var percentLoaded = 0;
-					</script>
 			  </div>
 			</div>
+		  <div id="endgame-container">
+		  <h2><span id="winner-name"></span></h2>
+		  <a href="index.html"><button>Play Again</button></a>
+		  </div>
 		</div>
 	</body>
 </html>
