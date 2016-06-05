@@ -9,8 +9,6 @@ body {
 
 canvas {
 	position:absolute;
-	width:700px;
-	height:600px;
 	background-image:url(../images/canvasmap.png);
 }
 
