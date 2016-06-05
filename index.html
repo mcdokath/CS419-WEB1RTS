@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<title>Tower Challenge</title>
+		<title>Build or Die</title>
 		<link href="css/main.css" rel="stylesheet" type="text/css" />
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 		<script src="js/script.js"></script>
@@ -11,14 +11,38 @@
 		<![endif]-->
 	</head>
 	<body>
-	<div id="game_container">
-	
-		  <h1 id="game-title">Tower Challenge</h1>
-		
-			    <a href="easygame.html"><button class="game-button" id="new-game">Easy Mode</button></a>
-			 		<a href="hardgame.html">  <button class="game-button" id="load-game">Hard Mode</button></a>
-			  
-		
-
+		<div class="container">
+		  <h1 id="game-title">Build or Die</h1>
+		  <hr>
+		  <div id="game-container">
+			<h2>The Story</h2>
+			<p>
+			 Many years into the future, robots have replaced humans for all physical labor.  Presidential elections are decided by how well candidates can use the robots at their disposal to accomplish a task.  This election cycle, you are competing against another candidate to build the highest tower possible.  Whoever reaches the total number of tower bricks first wins the election.
+			</p>
+			  <div id="loginscreen">
+			  <button class="game-button" id="new-game">New Game</button>
+			  <button class="game-button" id="easy-game">Easy</button>
+			  <button class="game-button" id="hard-game">Hard</button>
+			  <div id="easy-instructions">
+				<p><strong>Instructions</strong></p>
+				<p>In Easy Mode, your goal is to construct bricks faster than the rival candidate.  Your units are on the left, and rival units are on the right.  You use diamonds to buy miners and builders.  Miners gather diamonds faster, and builders construct bricks faster.</p>
+				<p>Good luck, and may the best candidate win!</p>
+				<div class="button-choices">
+					<a href="easygame.html"><button class="game-button">Play Easy Mode</button></a>
+					<a href="index.html"><button class="game-button">Back</button></a>
+				</div>
+			  </div></a>
+			  <div id="hard-instructions">
+				<p><strong>Instructions</strong></p>
+				<p>In Hard Mode, your goal is to construct bricks faster than the rival candidate.  Your units are on the left, and rival units are on the right.  You use diamonds to buy miners, builders, and destroyers.  Miners gather diamonds faster, builders construct bricks faster, and destroyers damage rival units.  The rival candidate can buy destroyers as well, so you need to guard against those units while still building faster than the rival candidate.</p>
+				<p>Good luck, and may the best candidate win!</p>
+				<div class="button-choices">
+					<a href="hardgame.html"><button class="game-button">Play Hard Mode</button></a>
+					<a href="index.html"><button class="game-button">Back</button></a>
+				</div>
+			  </div></a>
+			  </div>
+			</div>
+		</div>
 	</body>
 </html>
