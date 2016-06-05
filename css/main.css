@@ -7,6 +7,19 @@ body {
 	min-height:1000px;
 }
 
+#game_container {
+    width: 1024px;
+    height: 725px;
+    background: url(../images/splashscreen1.png);
+    border: 1px solid black;
+	position:fixed;
+		margin-left:auto;
+	margin-right:auto;
+		margin-left:auto;
+	margin-right:auto;
+	overflow:auto;
+}
+
 h1, h2, h3, h4, h5, h6 {
 	text-align:center;
 	color:#000;
