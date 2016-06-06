@@ -2788,10 +2788,6 @@ function AI_Money_Distribution(){
 		buyMinerEnemy(1);
 		
 	}
-	//else if (moneyEnemy >= 100){
-		//buyBuilderEnemy(1);
-		
-	//}
 	
 	//if we have at least 1 destructor, 1 builder and 1 miner, the AI will randomly buy either builder or miner with the rest of the money
 	//if there are less than 5 miners and if there are less than 5 builders
@@ -3003,8 +2999,9 @@ function gameOverLost() {
 	ctxBg.fillText("Game Over. You lost!", canvasWidth/2, canvasHeight/2 -150);
 	ctxBg.fillText("Your building has "+numberOfBricks_for_destruction+" bricks! ", canvasWidth/2, canvasHeight/2 -100);
 	ctxBg.fillText("Your enemy has "+numberOfBricksEnemy+" bricks!", canvasWidth/2, canvasHeight/2 -50);
-	ctxBg.fillText("AI either depleted your resources or ", canvasWidth/2, canvasHeight/2);
-	ctxBg.fillText("has a taller building.", canvasWidth/2, canvasHeight/2  +50);
+	ctxBg.fillText("AI either depleted your  ", canvasWidth/2, canvasHeight/2);
+	ctxBg.fillText("resources or ", canvasWidth/2, canvasHeight/2 +50);
+	ctxBg.fillText("has a taller building.", canvasWidth/2, canvasHeight/2  +100);
 	//ctxBg.fillText("Game Over. You lost - Your building has "+numberOfBricks_for_destruction+" bricks! Your enemy has "+numberOfBricksEnemy+" bricks!", canvasWidth/2, canvasHeight/2 -100);
 	
 	// Stop the Animation
@@ -3034,7 +3031,8 @@ function gameOverWon() {
 	ctxBg.fillText("Your building has "+numberOfBricks_for_destruction+" bricks! ", canvasWidth/2, canvasHeight/2 -100);
 	ctxBg.fillText("Your enemy has "+numberOfBricksEnemy+" bricks!", canvasWidth/2, canvasHeight/2 -50);
 	ctxBg.fillText("You either depleted enemies ", canvasWidth/2, canvasHeight/2);
-	ctxBg.fillText("resources or have a taller building.", canvasWidth/2, canvasHeight/2+50);
+	ctxBg.fillText("resources or.", canvasWidth/2, canvasHeight/2+50);
+	ctxBg.fillText(" have a taller building.", canvasWidth/2, canvasHeight/2+100);
 	//ctxBg.fillText("Your enemy has "+numberOfBricksEnemy+" bricks!", canvasWidth/2, canvasHeight/2 -50);
 	// Stop the Animation
 	cancelRequestAnimFrame(animation);
@@ -3108,27 +3106,32 @@ function GameIsOver(){
 		}
 	}
 	//player does not have money, builders or miners, while the AI has miners and/or builders - THUS AI WILL WIN
+	//Player has less than 100 diamonds, player does not have any miners or builder. AI has less than 100 diamonds, but it has builders left
 	else if(money <100 && numberOfMiners2 == 0 && numberOfBuilders2 == 0 && moneyEnemy < 100   && numberOfBuildersEnemy2 > 0 && numberOfMinersEnemy2 == 0 && numberOfBricks_for_destruction < numberOfBricksEnemy_for_destruction){
 		//you lost
 		gameOverLost();
 	}
+	//Player has less than 100 diamonds, player does not have any miners or builder. AI has less than 100 diamonds, but it has miners left
 	else if(money <100 && numberOfMiners2 == 0 && numberOfBuilders2 == 0 && moneyEnemy < 100   && numberOfBuildersEnemy2 == 0 && numberOfMinersEnemy2 > 0 && numberOfBricks_for_destruction < numberOfBricksEnemy_for_destruction){
 		//you lost
 		gameOverLost();
 	}
+	//Player has less than 100 diamonds, player does not have any miners or builder. AI has less than 100 diamonds, but it has miners  and builders left
 	else if(money <100 && numberOfMiners2 == 0 && numberOfBuilders2 == 0 && moneyEnemy < 100   && numberOfBuildersEnemy2 > 0 && numberOfMinersEnemy2 > 0 && numberOfBricks_for_destruction < numberOfBricksEnemy_for_destruction){
 		//you lost
 		gameOverLost();
 	}
-		//AI does not have money, builders or miners, while the player has miners and/or builders - THUS player will win
+			//AI has less than 100 diamonds, AI does not have any miners or builder. player has less than 100 diamonds, but it has miner left
 	else if(money <100 && numberOfMiners2 > 0 && numberOfBuilders2 == 0 && moneyEnemy < 100   && numberOfBuildersEnemy2 == 0 && numberOfMinersEnemy2 == 0 && numberOfBricks_for_destruction > numberOfBricksEnemy_for_destruction){
 		//AI lost
 		gameOverWon();
 	}
+	//AI has less than 100 diamonds, AI does not have any miners or builder. player has less than 100 diamonds, but it has builders left
 	else if(money <100 && numberOfMiners2 == 0 && numberOfBuilders2 > 0 && moneyEnemy < 100   && numberOfBuildersEnemy2 == 0 && numberOfMinersEnemy2 == 0 && numberOfBricks_for_destruction > numberOfBricksEnemy_for_destruction){
 		//AI lost
 		gameOverWon();
 	}
+	//AI has less than 100 diamonds, AI does not have any miners or builder. player has less than 100 diamonds, but it has builders and miners left
 	else if(money <100 && numberOfMiners2 > 0 && numberOfBuilders2 > 0 && moneyEnemy < 100   && numberOfBuildersEnemy2 == 0 && numberOfMinersEnemy2 == 0  && numberOfBricks_for_destruction > numberOfBricksEnemy_for_destruction){
 		//AI lost
 		gameOverWon();
@@ -3159,7 +3162,12 @@ function GameIsOver(){
 		//AI lost
 		gameOverWon();
 	}
-	else if(money >0 && numberOfMiners2 > 0 && numberOfBuilders2 > 0 && moneyEnemy < 200   && numberOfBuildersEnemy2 == 0 && numberOfMinersEnemy2 == 0  && numberOfBricks_for_destruction > numberOfBricksEnemy_for_destruction){
+	else if(money >0 && numberOfMiners2 > 0 && numberOfBuilders2 > 0 && moneyEnemy < 100   && numberOfBuildersEnemy2 == 0 && numberOfMinersEnemy2 == 0  && numberOfBricks_for_destruction > numberOfBricksEnemy_for_destruction){
+		//AI lost
+		gameOverWon();
+	}
+	//if AI has less than 300 diamonds, no miners and not builders, AI looses
+	else if(money >0 && numberOfMiners2 > 0 && numberOfBuilders2 > 0 && moneyEnemy < 300   && numberOfBuildersEnemy2 == 0 && numberOfMinersEnemy2 == 0  && numberOfDestructorsEnemy == 0){
 		//AI lost
 		gameOverWon();
 	}
