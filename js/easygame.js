@@ -18,9 +18,9 @@
 		money: 400,
 		numMiners: 1,
 		numBuilders: 1,
-		//mine: new Mine(),
-		miners: [],
-		builders: [],
+		lastMinerY: 0, // allows game to automatically place new miners
+		lastBuilderX: 0, // allows game to automatically place new builders
+		lastBuilderY: 0, // allows game to automatically place new builders
 		spawnX: 230, // X coordinate of where new units will spawn
 		spawnY: 140 // Y coordinate of where new units will spawn
 	};
@@ -35,9 +35,9 @@
 		money: 400,
 		numMiners: 1,
 		numBuilders: 1,
-		//mine: new Mine(),
-		miners: [],
-		builders: [],
+		lastMinerY: 0, // allows game to automatically place new miners
+		lastBuilderX: 0, // allows game to automatically place new builders
+		lastBuilderY: 0, // allows game to automatically place new builders
 		spawnX: 454, // X coordinate of where new units will spawn
 		spawnY: 140 // Y coordinate of where new units will spawn
 	};
@@ -149,8 +149,8 @@
 		miner.y = 40;
 		miner.regX = miner.getBounds().width / 2;
 		miner.regY = miner.getBounds().height / 2;
+		playerVars.lastMinerY = miner.y;
 		stage.addChild(miner);
-		playerVars.miners.push(miner);
 
 		var enemyMiner = new createjs.Sprite(spriteSheet, "enemyMine");
 		miner.name = 'enemyMiner' + 0;
@@ -158,8 +158,8 @@
 		enemyMiner.y = 40;
 		enemyMiner.regX = enemyMiner.getBounds().width / 2;
 		enemyMiner.regY = enemyMiner.getBounds().height / 2;
+		enemyVars.lastMinerY = enemyMiner.y;
 		stage.addChild(enemyMiner);
-		enemyVars.miners.push(enemyMiner);
 
 		// create player builder and enemy builder
 		var builder = new createjs.Sprite(spriteSheet, "playerBuildRight");
@@ -168,8 +168,9 @@
 		builder.y = 553;
 		builder.regX = builder.getBounds().width / 2;
 		builder.regY = builder.getBounds().height / 2;
+		playerVars.lastBuilderX = builder.x;
+		playerVars.lastBuilderY = builder.y
 		stage.addChild(builder);
-		playerVars.builders.push(builder);
 
 		var enemyBuilder = new createjs.Sprite(spriteSheet, "enemyBuildLeft");
 		enemyBuilder.name = 'enemyBuilder' + 0;
@@ -177,8 +178,9 @@
 		enemyBuilder.y = 553;
 		enemyBuilder.regX = enemyBuilder.getBounds().width / 2;
 		enemyBuilder.regY = enemyBuilder.getBounds().height / 2;
+		enemyVars.lastBuilderX = enemyBuilder.x;
+		enemyVars.lastBuilderY = enemyBuilder.y;
 		stage.addChild(enemyBuilder);
-		playerVars.builders.push(enemyBuilder);
 
 		// create brick at player foundation
 		var playerBrick = new createjs.Sprite(spriteSheet, "brick");
@@ -211,7 +213,6 @@
 				// update money and miner count
 				playerVars.money = playerVars.money - gameVars.minerCost;
 				playerVars.numMiners = playerVars.numMiners + 1;
-				playerVars.miners.push();
 				
 				// display miner on canvas
 				var miner = new createjs.Sprite(spriteSheet, "playerMine");
@@ -222,7 +223,7 @@
 				miner.paused = true;
 				stage.addChild(miner);
 				// POSITION UNIT
-				placeUnit("playerMiner");
+				placeUnit(miner, "playerMiner", playerVars);
 			}
 
 			// display updated player stats
@@ -252,7 +253,7 @@
 				builder.paused = true;
 				stage.addChild(builder);
 				// POSITION UNIT
-				placeUnit("playerBuilder");
+				placeUnit(builder, "playerBuilder", playerVars);
 			}
 
 			// display updated player stats
@@ -376,7 +377,7 @@
 			miner.paused = false;
 			stage.addChild(miner);
 			// POSITION UNIT
-			placeUnit("enemyMiner");
+			placeUnit(miner, "enemyMiner", enemyVars);
 		}		
 	}
 		
@@ -389,7 +390,6 @@
 			// update money and builder count
 			enemyVars.money = enemyVars.money - gameVars.builderCost;
 			enemyVars.numBuilders = enemyVars.numBuilders + 1;
-			enemyVars.builders.push();
 			
 			// display builder on canvas
 			var builder = new createjs.Sprite(spriteSheet, "enemyBuildLeft");
@@ -400,24 +400,69 @@
 			builder.paused = false;
 			stage.addChild(builder);
 			// POSITION UNIT
-			placeUnit("enemyBuilder");
+			placeUnit(builder, "enemyBuilder", enemyVars);
 		}		
 	}
 
-	function placeUnit(unit) {
+	function placeUnit(unit, unitName, playerObj) {
+		var nextX = unit.x;
+		var nextY = unit.y;
+		var middleY = 297;
+		var increment = 10;
+		
 		// determine which unit is being placed
-		if (unit == "playerMiner") {
-			alert("player miner");
+		if (unitName == "playerMiner") {
+			var moveUp = 0;
+			var moveLeft = 0;
+			var finalPlace = 0;
+			nextY = nextY + 140;
+			nextX = nextX - 180;
+			finalY = nextY;
+			unit.addEventListener("tick", function() {
+				if (unit.y < nextY && moveUp == 0) {
+					// move down from spawn location
+					unit.y += increment;
+				}
+				else if (unit.y >= nextY && unit.x > nextX) {
+					moveUp = 1;
+					// move left
+					unit.x -= increment;
+				}
+				else if (unit.y >= nextY && unit.x <= nextX) {
+					// if there is space, move up
+					if (playerObj.lastMinerY < middleY) {
+						if (unit.y > playerObj.lastMinerY && playerObj.lastMinerY < middleY) {
+							unit.y -= increment;
+						}
+					}
+					else if (playerObj.lastMinerY >= middleY) {
+					// if not, move down
+						if (unit.y < playerObj.lastMinerY && playerObj.lastMinerY >= middleY) {
+							unit.y += increment;
+						}
+					}
+				}
+				else {
+					unit.removeEventListener("tick");					
+				}
+			});
+			// update last unit position
+			//playerObj.lastMinerY = unit.y;
+			// start animation
+			unit.paused = false;
 		}
-		else if (unit == "playerBuilder") {
-			alert("player builder");
+		else if (unitName == "playerBuilder") {
+			
 		}
-		else if (unit == "enemyMiner") {
-			alert("enemy miner");
+		else if (unitName == "enemyMiner") {
+			
 		}
-		else if (unit == "enemyBuilder") {
-			alert("enemy builder");
+		else if (unitName == "enemyBuilder") {
+			
 		}
+		
+		//this.unit.nextX = nextX;
+		//this.unit.nextY = nextY;
 	}
 
 	function endGame(winner) {
