@@ -242,7 +242,6 @@
 				// update money and builder count
 				playerVars.money = playerVars.money - gameVars.builderCost;
 				playerVars.numBuilders = playerVars.numBuilders + 1;
-				playerVars.builders.push();
 				
 				// display builder on canvas
 				var builder = new createjs.Sprite(spriteSheet, "playerBuildLeft");
@@ -366,7 +365,6 @@
 			// update money and miner count
 			enemyVars.money = enemyVars.money - gameVars.minerCost;
 			enemyVars.numMiners = enemyVars.numMiners + 1;
-			enemyVars.miners.push();
 			
 			// display miner on canvas
 			var miner = new createjs.Sprite(spriteSheet, "enemyMine");
