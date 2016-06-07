@@ -4,7 +4,7 @@
 		builderCost: 200,
 		brickWidth: 13,
 		brickHeight: 9,
-		bricksPerRow: 6,
+		bricksPerRow: 7,
 		winningBrickCount: 180
 	};
 
@@ -285,7 +285,7 @@
 			}
 			
 			// increment bricks every minute
-			if (time % 3600 == 0 && time != 0) {
+			if (time % 1800 == 0 && time != 0) {
 				playerVars.bricks = playerVars.bricks + playerVars.numBuilders * 1;
 				for (i = 0; i < playerVars.numBuilders; i++) {
 					addBrick(playerVars);
@@ -297,7 +297,6 @@
 			}
 				
 			// AI actions
-			// buying a builder or miner is a random event
 			if (time % 200 == 0 && time != 0) {
 				// if miners and builders are equal
 				if (enemyVars.numMiners == enemyVars.numBuilders && enemyVars.money >= gameVars.builderCost) {
@@ -321,7 +320,9 @@
 			document.getElementById("enemy_bricks").innerHTML = enemyVars.bricks;
 			document.getElementById("money").innerHTML = playerVars.money;
 			document.getElementById("miners").innerHTML = playerVars.numMiners;
+			document.getElementById("enemy_miners").innerHTML = enemyVars.numMiners;
 			document.getElementById("builders").innerHTML = playerVars.numBuilders;
+			document.getElementById("enemy_builders").innerHTML = enemyVars.numBuilders;
 			time++; // increase time counter
 		});
 	}
@@ -405,19 +406,19 @@
 	function placeUnit(unit, unitName, playerObj) {
 		var nextX = unit.x;
 		var nextY = unit.y;
+		var finalY = nextY;
 		var middleY = 297;
 		var increment = 10;
 		
 		// determine which unit is being placed
-		if (unitName == "playerMiner") {
+		if (unitName === "playerMiner") {
 			var moveUp = 0;
 			var moveLeft = 0;
 			var finalPlace = 0;
 			nextY = nextY + 140;
 			nextX = nextX - 180;
-			finalY = nextY;
 			unit.addEventListener("tick", function() {
-				if (unit.y < nextY && moveUp == 0) {
+				if (unit.y < nextY && moveUp === 0) {
 					// move down from spawn location
 					unit.y += increment;
 				}
@@ -449,18 +450,104 @@
 			// start animation
 			unit.paused = false;
 		}
-		else if (unitName == "playerBuilder") {
-			
+		else if (unitName === "playerBuilder") {
+			var moveUp = 0;
+			var moveLeft = 0;
+			var finalPlace = 0;
+			nextY = nextY + 140;
+			nextX = nextX - 75;
+			finalY = nextY + 250;
+			unit.addEventListener("tick", function() {
+				if (unit.y < nextY && moveUp === 0 && finalPlace === 0) {
+					// move down from spawn location
+					unit.y += increment;
+				}
+				else if (unit.y >= nextY && unit.x > nextX) {
+					moveUp = 1;
+					// move left
+					unit.x -= increment;
+				}
+				else if (unit.x <= nextX && unit.y <= finalY) {
+					finalPlace = 1;
+					// move down
+					unit.y += increment;
+				}
+				else {
+					unit.removeEventListener("tick");					
+				}
+			});
+			// start animation
+			unit.paused = false;			
 		}
-		else if (unitName == "enemyMiner") {
-			
+		else if (unitName === "enemyMiner") {
+			var moveUp = 0;
+			var moveLeft = 0;
+			var finalPlace = 0;
+			nextY = nextY + 140;
+			nextX = nextX + 180;
+			finalY = nextY;
+			unit.addEventListener("tick", function() {
+				if (unit.y < nextY && moveUp === 0) {
+					// move down from spawn location
+					unit.y += increment;
+				}
+				else if (unit.y >= nextY && unit.x < nextX) {
+					moveUp = 1;
+					// move right
+					unit.x += increment;
+				}
+				else if (unit.y >= nextY && unit.x >= nextX) {
+					// if there is space, move up
+					if (playerObj.lastMinerY < middleY) {
+						if (unit.y > playerObj.lastMinerY && playerObj.lastMinerY < middleY) {
+							unit.y -= increment;
+						}
+					}
+					else if (playerObj.lastMinerY >= middleY) {
+					// if not, move down
+						if (unit.y < playerObj.lastMinerY && playerObj.lastMinerY >= middleY) {
+							unit.y += increment;
+						}
+					}
+				}
+				else {
+					unit.removeEventListener("tick");					
+				}
+			});
+			// update last unit position
+			//playerObj.lastMinerY = unit.y;
+			// start animation
+			unit.paused = false;			
 		}
-		else if (unitName == "enemyBuilder") {
-			
-		}
-		
-		//this.unit.nextX = nextX;
-		//this.unit.nextY = nextY;
+		else if (unitName === "enemyBuilder") {
+			var moveUp = 0;
+			var moveLeft = 0;
+			var finalPlace = 0;
+			nextY = nextY + 140;
+			nextX = nextX + 75;
+			finalY = nextY + 250;
+			unit.addEventListener("tick", function() {
+				if (unit.y < nextY && moveUp === 0 && finalPlace === 0) {
+					// move down from spawn location
+					unit.y += increment;
+				}
+				else if (unit.y >= nextY && unit.x < nextX) {
+					moveUp = 1;
+					// move right
+					unit.x += increment;
+				}
+				else if (unit.x >= nextX && unit.y <= finalY) {
+					finalPlace = 1;
+					// move down
+					unit.y += increment;
+				}
+				else {
+					unit.removeEventListener("tick");					
+				}
+			});
+			// start animation
+			unit.paused = false;
+		}	
 	}
 
 	function endGame(winner) {
